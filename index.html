@@ -271,7 +271,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 .feat-price{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:#fff}
 .feat-price-note{font-size:.7rem;color:rgba(255,255,255,.35);margin-top:2px}
 /* ── BOAT DETAIL ── */
-.boat-detail-wrap{background:var(--off);padding:5.5rem 3rem 4rem}
+.boat-detail-wrap{background:var(--off);padding:5.5rem 3rem 4rem;scroll-margin-top:0}
 .boat-detail-inner{max-width:1320px;margin:0 auto}
 .boat-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem}
 .boat-detail-title{font-family:'Cormorant Garamond',serif;color:var(--ink);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:600;line-height:1.1}
@@ -1618,10 +1618,12 @@ function drawChCard(id,type){
       if(searchPanelEl) searchPanelEl.style.display = 'none';
       const heroEl = document.querySelector('.hero');
       if(heroEl) heroEl.style.display = 'none';
+      const footerEl = document.querySelector('.sell-section');
+      if(footerEl) footerEl.style.display = 'none';
       document.getElementById('mainNav')?.classList.add('scrolled');
       if(boatDetailSection){
         boatDetailSection.style.display = 'block';
-        window.scrollTo({top:0,behavior:'instant'});
+        requestAnimationFrame(()=>{ window.scrollTo({top:0,behavior:'instant'}); });
       }
       if(window.history && window.history.pushState) window.history.pushState({detail:true}, '', '#detalle');
     }catch(e){console.error('Error mostrando ficha', e)}
@@ -1657,6 +1659,8 @@ function drawChCard(id,type){
   function hideBoatDetail(){
     if(boatDetailSection) boatDetailSection.style.display='none';
     if(boatPageMain) boatPageMain.style.display = 'block';
+    const footerEl = document.querySelector('.sell-section');
+    if(footerEl) footerEl.style.display = '';
     const searchPanelEl = document.querySelector('.search-panel');
     if(searchPanelEl) searchPanelEl.style.display = '';
     const heroEl = document.querySelector('.hero');
