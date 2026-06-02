@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barcos en Mallorca – Compra y Venta de Embarcaciones</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --ink:#04080f;--deep:#07111f;--ocean:#0a2540;--sea:#103c6a;
+  --azure:#1d6fa4;--sky:#4da6d4;--foam:#e8f4fb;
+  --gold:#c9a030;--gold2:#ddb840;--gold-light:#e8c070;
+  --white:#ffffff;--off:#f7f5f2;--text:#0d1a28;
+  --muted:#6a7e90;--border:#dce6ef;
+  --r:14px;--r2:24px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --ease2:cubic-bezier(.16,1,.3,1);
+  --ease3:cubic-bezier(.34,.1,.68,.55);
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:var(--text);overflow-x:hidden;cursor:auto}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:0 3rem;transition:background .45s var(--ease2),backdrop-filter .45s var(--ease2),box-shadow .45s var(--ease2);background:rgba(4,8,15,0)}
+nav.scrolled{background:rgba(4,8,15,.95);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 12px 40px rgba(0,0,0,.4)}
+.nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;height:70px;gap:0}
+.nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;margin-right:auto}
+.logo-mark{width:38px;height:38px;flex-shrink:0}
+.logo-text{display:flex;flex-direction:column;line-height:1}
+.logo-name{font-family:'Cormorant Garamond',serif;color:#fff;font-size:1.2rem;font-weight:600;letter-spacing:-.01em}
+.logo-sub{color:rgba(255,255,255,.4);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+.nav-links{display:flex;align-items:center;gap:.25rem}
+.nav-links a{color:rgba(255,255,255,.65);text-decoration:none;font-size:.82rem;font-weight:400;padding:.5rem 1rem;border-radius:10px;transition:color .25s var(--ease2),background .25s var(--ease2);position:relative}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.12)}
+.nav-links a.has-sub::after{content:'';display:inline-block;width:4px;height:4px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:rotate(45deg);margin-left:5px;vertical-align:middle;opacity:.6}
+.nav-drop{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(6px);background:rgba(7,17,31,.97);backdrop-filter:blur(32px);-webkit-backdrop-filter:blur(32px);border:1px solid rgba(255,255,255,.12);border-radius:var(--r2);padding:.75rem;min-width:240px;opacity:0;pointer-events:none;transition:opacity .3s var(--ease),transform .3s var(--ease);box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.nav-links a:hover .nav-drop{opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0)}
+.nav-drop a{display:flex;align-items:center;gap:10px;padding:.6rem .9rem;border-radius:10px;color:rgba(255,255,255,.65);font-size:.82rem;text-decoration:none;transition:background .15s,color .15s;background:none}
+.nav-drop a:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav-drop a::after{display:none}
+.drop-icon{font-size:1rem;width:24px;text-align:center}
+.nav-actions{display:flex;align-items:center;gap:.75rem;margin-left:1.5rem}
+.btn-nav-ghost{background:transparent;color:rgba(255,255,255,.7);border:1.5px solid rgba(255,255,255,.2);padding:.45rem 1.1rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.8rem;cursor:pointer;text-decoration:none;transition:all .3s var(--ease)}
+.btn-nav-ghost:hover{border-color:rgba(255,255,255,.6);color:#fff;background:rgba(255,255,255,.08)}
+.btn-nav-solid{background:var(--gold);color:#fff;border:none;padding:.5rem 1.2rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;text-decoration:none;transition:all .3s var(--ease);box-shadow:0 4px 16px rgba(201,160,48,.4)}
+.btn-nav-solid:hover{background:var(--gold2);box-shadow:0 8px 28px rgba(201,160,48,.6);transform:translateY(-2px)}
+
+/* ── LANG SELECTOR ── */
+.lang-select{position:relative;margin-left:1.25rem}
+.lang-btn{display:flex;align-items:center;gap:6px;background:transparent;border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8);padding:.42rem .85rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.8rem;cursor:pointer;transition:all .25s var(--ease)}
+.lang-btn:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.lang-btn svg{width:10px;height:10px;transition:transform .25s}
+.lang-select.open .lang-btn svg{transform:rotate(180deg)}
+.lang-drop{display:none;position:absolute;top:calc(100% + 8px);right:0;background:rgba(7,17,31,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:.5rem;min-width:220px;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:600}
+.lang-select.open .lang-drop{display:block;animation:advFadeIn .18s var(--ease)}
+.lang-opt{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:rgba(255,255,255,.65);font-family:'Inter',sans-serif;font-size:.82rem;padding:.55rem .85rem;border-radius:10px;cursor:pointer;text-align:left;transition:background .15s,color .15s;white-space:nowrap}
+.lang-opt:hover{background:rgba(255,255,255,.08);color:#fff}
+.lang-opt.active{color:#fff;background:rgba(255,255,255,.06)}
+.lang-flag{width:20px;height:15px;border-radius:2px;object-fit:cover;flex-shrink:0}
+.lang-btn-flag{width:18px;height:13px;border-radius:2px;object-fit:cover}
+
+/* ── Ocultar barra de Google Translate ── */
+.goog-te-banner-frame{display:none!important}
+.goog-te-gadget{display:none!important}
+body{top:0!important}
+
+/* ── HERO (full screen cinematic) ── */
+.hero{position:relative;height:52vh;min-height:340px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#04080f}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.65) saturate(1.1)}
+.hero-noise{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.4;pointer-events:none}
+.hero-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 30%,rgba(4,8,15,.6) 100%);pointer-events:none}
+.hero-bottom-fade{position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--ink));pointer-events:none}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 1.5rem;max-width:860px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;color:var(--gold-light);font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;margin-bottom:1.75rem;opacity:0;transform:translateY(20px);animation:fadeUp .9s var(--ease2) .25s forwards}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';flex:1;height:1px;width:30px;background:var(--gold);opacity:.5}
+.hero h1{font-family:'Cormorant Garamond',serif;color:#fff;font-size:clamp(2rem,5vw,3.8rem);font-weight:300;line-height:1.05;letter-spacing:-.02em;margin-bottom:.75rem;opacity:0;animation:fadeUp 1s var(--ease2) .45s forwards}
+.hero h1 em{font-style:italic;color:var(--gold-light)}
+.hero h1 strong{font-weight:600}
+.hero-sub{color:rgba(255,255,255,.5);font-size:.9rem;font-weight:300;line-height:1.6;max-width:520px;margin:0 auto 1.25rem;opacity:0;animation:fadeUp .9s var(--ease2) .75s forwards}
+.hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;opacity:0;animation:fadeUp .9s var(--ease2) .95s forwards}
+.btn-hero-primary{background:#fff;color:var(--ink);padding:.85rem 2.2rem;border-radius:50px;font-size:.9rem;font-weight:600;text-decoration:none;transition:all .35s var(--ease);box-shadow:0 8px 32px rgba(255,255,255,.2);position:relative;overflow:hidden}
+.btn-hero-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
+.btn-hero-primary:hover{background:var(--gold-light);transform:translateY(-3px);box-shadow:0 12px 48px rgba(201,160,48,.4)}
+.btn-hero-primary:hover::before{opacity:1}
+.btn-hero-ghost{background:transparent;color:#fff;padding:.85rem 2.2rem;border-radius:50px;font-size:.9rem;border:1.5px solid rgba(255,255,255,.3);text-decoration:none;transition:all .35s var(--ease)}
+.btn-hero-ghost:hover{border-color:rgba(255,255,255,.8);background:rgba(255,255,255,.1);transform:translateY(-3px);box-shadow:0 8px 24px rgba(255,255,255,.1)}
+.hero-scroll-indicator{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .9s var(--ease2) 1.4s forwards}
+.scroll-line{width:1px;height:50px;background:linear-gradient(to bottom,rgba(255,255,255,.5),transparent);animation:scrollLine 1.8s ease-in-out infinite}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.001%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.scroll-text{color:rgba(255,255,255,.3);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase}
+
+@keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+/* ── SEARCH PANEL ── */
+.search-panel{background:var(--off);padding:2rem 3rem 1.5rem;border-bottom:1px solid var(--border)}
+.search-wrap{max-width:1320px;margin:0 auto}
+.filter-card{background:#fff;border-radius:16px;border:1px solid var(--border);padding:1.5rem 1.75rem;box-shadow:0 2px 16px rgba(10,37,64,.06)}
+.filter-tabs-row{display:flex;align-items:center;justify-content:space-between;border-bottom:1.5px solid var(--border);margin-bottom:1.25rem;padding-bottom:0}
+.filter-tabs-left{display:flex;gap:0}
+.ftab{background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1.5px;font-family:'Inter',sans-serif;font-size:.875rem;font-weight:500;color:var(--muted);cursor:pointer;padding:.5rem 1.1rem .65rem;transition:color .2s,border-color .2s;white-space:nowrap}
+.ftab:hover:not(.active){color:var(--text)}
+.ftab.active{color:var(--text);font-weight:600;border-bottom-color:var(--text)}
+.btn-adv-link{background:none;border:none;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;color:var(--azure);cursor:pointer;padding:.4rem 0 .65rem;transition:color .2s;white-space:nowrap}
+.btn-adv-link:hover{color:var(--ocean)}
+.filter-row-1{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.875rem;margin-bottom:.875rem}
+.filter-row-2{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.875rem;align-items:end}
+.ff{display:flex;flex-direction:column}
+.ff-label{font-size:.75rem;font-weight:600;color:var(--text);margin-bottom:.35rem}
+.ff-select,.ff-text{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.6rem .9rem;font-family:'Inter',sans-serif;font-size:.875rem;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236a7e90' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.ff-text{background-image:none;padding-right:.9rem}
+.ff-select:focus,.ff-text:focus{border-color:var(--azure);box-shadow:0 0 0 3px rgba(29,111,164,.12);outline:none}
+.ff-range{display:flex;flex-direction:column}
+.ff-range-inputs{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.ff-num{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:.6rem .75rem;font-family:'Inter',sans-serif;font-size:.85rem;color:var(--text);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
+.ff-num:focus{border-color:var(--azure);box-shadow:0 0 0 3px rgba(29,111,164,.12)}
+.ff-num::placeholder{color:#a8b8c4}
+.btn-search-new{background:#e07800;color:#fff;border:none;padding:.65rem 2.25rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .3s var(--ease);box-shadow:0 4px 16px rgba(224,120,0,.25)}
+.btn-search-new:hover{background:#c86a00;transform:translateY(-2px);box-shadow:0 6px 24px rgba(224,120,0,.4)}
+.btn-adv-clear{display:block;background:transparent;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:.78rem;cursor:pointer;padding:.38rem .75rem;border-radius:8px;transition:color .2s;margin-top:.75rem}
+.btn-adv-clear:hover{color:var(--text)}
+.adv-filters{display:none;margin-top:.75rem;border:1.5px solid var(--border);border-radius:var(--r);padding:1.25rem 1.5rem;background:#fff}
+.adv-filters.open{display:block;animation:advFadeIn .2s var(--ease)}
+@keyframes advFadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.adv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1.25rem 2rem}
+.adv-group-label{font-size:.67rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.6rem}
+
+/* ── STATS ── */
+.stats-row{background:var(--ink);padding:2.5rem 3rem}
+.stats-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:0}
+.stat-item{text-align:center;padding:1rem;position:relative;opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease2),transform .8s var(--ease2)}
+.stat-item.visible{opacity:1;transform:translateY(0)}
+.stat-item+.stat-item::before{content:'';position:absolute;left:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,.08)}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#fff;line-height:1;display:block}
+.stat-num span{color:var(--gold-light)}
+.stat-label{color:rgba(255,255,255,.35);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;margin-top:.4rem;display:block}
+
+/* ── CATEGORY SCROLL ── */
+.cat-scroll{background:var(--off);border-bottom:1px solid var(--border);overflow:hidden}
+.cat-track{display:flex;align-items:center;gap:.5rem;padding:.9rem 3rem;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:1320px;margin:0 auto}
+.cat-track::-webkit-scrollbar{display:none}
+.cat-chip{display:inline-flex;align-items:center;gap:6px;padding:.45rem 1.1rem;border-radius:50px;border:1.5px solid var(--border);font-size:.78rem;font-weight:500;color:var(--text);white-space:nowrap;cursor:pointer;transition:all .3s var(--ease);text-decoration:none;background:#fff}
+.cat-chip:hover,.cat-chip.active{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-2px);box-shadow:0 4px 12px rgba(10,37,64,.2)}
+.cat-chip-count{background:var(--foam);color:var(--azure);font-size:.65rem;font-weight:700;padding:.1rem .5rem;border-radius:20px;transition:background .2s,color .2s}
+.cat-chip.active .cat-chip-count,.cat-chip:hover .cat-chip-count{background:rgba(255,255,255,.15);color:#fff}
+
+/* ── SCROLL-REVEAL ── */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .9s var(--ease2),transform .9s var(--ease2)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+/* ── MARQUEE ── */
+.marquee-wrap{background:var(--ocean);padding:.65rem 0;overflow:hidden;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+.marquee-track{display:flex;gap:0;animation:marquee 28s linear infinite;width:max-content}
+.marquee-item{color:rgba(255,255,255,.5);font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:0 2.5rem;white-space:nowrap;display:flex;align-items:center;gap:2.5rem}
+.marquee-item::after{content:'·';color:var(--gold-light)}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── MAIN LAYOUT ── */
+.main-layout{background:var(--off);padding:2.5rem 3rem 4rem}
+.layout-inner{max-width:1320px;margin:0 auto;display:block}
+
+/* ── SIDEBAR ── */
+.sidebar{background:#fff;border-radius:var(--r2);border:1px solid var(--border);overflow:hidden;position:sticky;top:88px;box-shadow:0 8px 32px rgba(10,37,64,.09)}
+.sb-head{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sb-head-title{font-size:.82rem;font-weight:600;color:var(--text)}
+.sb-head-clear{font-size:.72rem;color:var(--azure);cursor:pointer;background:none;border:none;font-family:'Inter',sans-serif}
+.fg{border-bottom:1px solid var(--border)}
+.fg-toggle{width:100%;background:none;border:none;padding:.9rem 1.4rem;display:flex;align-items:center;justify-content:space-between;font-family:'Inter',sans-serif;font-size:.8rem;font-weight:600;color:var(--text);cursor:pointer}
+.fg-toggle svg{width:11px;height:11px;transition:transform .25s;color:var(--muted);flex-shrink:0}
+.fg-toggle.open svg{transform:rotate(180deg)}
+.fg-body{padding:0 1.4rem .9rem;display:none}
+.fg-body.open{display:block}
+.fg-select{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.5rem .75rem;font-family:'Inter',sans-serif;font-size:.82rem;color:var(--text);background:#fafcfe;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236a7e90' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px;transition:border-color .2s}
+.fg-select:focus{border-color:var(--azure);box-shadow:0 0 0 4px rgba(29,111,164,.15)}
+.rr{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:.5rem}
+.rr input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:.45rem .6rem;font-family:'Inter',sans-serif;font-size:.8rem;color:var(--text);background:#fafcfe;outline:none;transition:border-color .2s}
+.rr input:focus{border-color:var(--azure);box-shadow:0 0 0 3px rgba(29,111,164,.12)}
+.rr input::placeholder{color:#a8b8c4;font-size:.75rem}
+.cb-list{display:flex;flex-direction:column;gap:7px}
+.cb{display:flex;align-items:center;gap:9px;font-size:.8rem;color:var(--text);cursor:pointer;padding:.1rem 0;line-height:1.3}
+.cb input[type=checkbox]{width:15px;height:15px;accent-color:var(--ocean);cursor:pointer;flex-shrink:0;border-radius:4px}
+.cb-ct{color:var(--muted);font-size:.7rem;margin-left:auto}
+.btn-apply{width:100%;background:var(--ocean);color:#fff;border:none;padding:.7rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .3s var(--ease);margin-top:.5rem;box-shadow:0 4px 12px rgba(10,37,64,.2)}
+.btn-apply:hover{background:var(--azure);transform:translateY(-2px);box-shadow:0 6px 20px rgba(10,37,64,.3)}
+.btn-clear-all{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);padding:.6rem;border-radius:10px;font-family:'Inter',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s;margin-top:.5rem}
+.btn-clear-all:hover{border-color:var(--muted);color:var(--text)}
+
+/* ── LISTINGS ── */
+.list-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+.list-count{font-size:.88rem;color:var(--muted)}
+.list-count strong{color:var(--text);font-size:1rem}
+.toolbar-r{display:flex;align-items:center;gap:.6rem}
+.sort-sel{border:1.5px solid var(--border);border-radius:8px;padding:.42rem 2rem .42rem .8rem;font-family:'Inter',sans-serif;font-size:.8rem;color:var(--text);background:#fff;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236a7e90' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 8px center;transition:border-color .25s var(--ease),box-shadow .25s var(--ease)}
+.sort-sel:focus{border-color:var(--azure);box-shadow:0 0 0 4px rgba(29,111,164,.18);outline:none}
+.view-toggle{display:flex;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;background:#fff}
+.vbtn{background:transparent;border:none;padding:.4rem .7rem;cursor:pointer;color:var(--muted);display:flex;align-items:center;transition:background .2s var(--ease),color .2s var(--ease)}
+.vbtn.active,.vbtn:hover{background:var(--ocean);color:#fff}
+.vbtn svg{width:15px;height:15px}
+
+/* ── BOAT CARDS ── */
+.boats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:1.1rem}
+.card{background:#fff;border-radius:var(--r2);border:1px solid var(--border);overflow:hidden;transition:transform .4s var(--ease2),box-shadow .4s var(--ease2),border-color .3s var(--ease);cursor:pointer;position:relative}
+.card:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(10,37,64,.18);border-color:var(--azure)}
+.card-media{position:relative;height:185px;overflow:hidden;background:var(--foam)}
+.card-media canvas{display:block;width:100%;height:185px;transition:transform .7s var(--ease2)}
+.card:hover .card-media canvas{transform:scale(1.04)}
+.card-badge{position:absolute;top:12px;left:12px;font-size:.62rem;font-weight:700;padding:.22rem .7rem;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;backdrop-filter:blur(6px)}
+.badge-used{background:rgba(10,37,64,.75);color:#fff}
+.badge-new{background:rgba(26,158,90,.85);color:#fff}
+.badge-hot{background:rgba(184,131,42,.9);color:#fff}
+.badge-price{background:rgba(217,64,64,.8);color:#fff}
+.card-fav{position:absolute;top:10px;right:10px;background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;color:#b0bec5;transition:color .3s var(--ease),transform .3s var(--ease),background .3s}
+.card-fav:hover{color:#e05050;transform:scale(1.18);background:rgba(255,255,255,.95)}
+.card-fav.on{color:#e05050}
+.card-price-overlay{position:absolute;bottom:12px;left:12px;background:rgba(4,8,15,.8);backdrop-filter:blur(6px);color:#fff;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:-.01em;padding:.25rem .8rem;border-radius:8px}
+.card-body{padding:.9rem 1.1rem 1.1rem}
+.card-kicker{font-size:.65rem;font-weight:600;color:var(--azure);text-transform:uppercase;letter-spacing:.1em;margin-bottom:3px}
+.card-title{font-family:'Cormorant Garamond',serif;font-size:1.12rem;font-weight:600;color:var(--ink);line-height:1.2;margin-bottom:.5rem}
+.card-specs{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:.5rem}
+.cs{display:flex;align-items:center;gap:4px;font-size:.74rem;color:var(--muted)}
+.cs svg{width:12px;height:12px;stroke:var(--azure);flex-shrink:0}
+.card-loc{font-size:.74rem;color:var(--muted);display:flex;align-items:center;gap:4px;margin-bottom:.75rem}
+.card-loc svg{width:11px;height:11px;stroke:var(--gold);flex-shrink:0}
+.card-foot{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);padding-top:.75rem}
+.price-main{font-family:'Inter',sans-serif;font-size:1.15rem;font-weight:700;color:var(--ocean);line-height:1;letter-spacing:-.02em}
+.price-note{font-size:.65rem;color:var(--muted);margin-top:2px}
+.price-drop{font-size:.7rem;color:#1a9e5a;font-weight:600;display:flex;align-items:center;gap:3px;margin-top:1px}
+.btn-cta{background:var(--ink);color:#fff;border:none;padding:.4rem 1rem;border-radius:8px;font-family:'Inter',sans-serif;font-size:.75rem;font-weight:500;cursor:pointer;text-decoration:none;transition:all .3s var(--ease);box-shadow:0 4px 12px rgba(10,37,64,.2)}
+.btn-cta:hover{background:var(--ocean);transform:translateY(-2px);box-shadow:0 6px 20px rgba(10,37,64,.35)}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:.4rem;margin:2.5rem 0 .5rem;flex-wrap:wrap}
+.pg{border:1.5px solid var(--border);border-radius:8px;padding:.4rem .8rem;background:#fff;font-size:.82rem;color:var(--text);cursor:pointer;transition:all .2s;text-decoration:none;min-width:38px;text-align:center}
+.pg:hover,.pg.active{background:var(--ocean);color:#fff;border-color:var(--ocean)}
+.pg.dots{cursor:default}
+.pg.dots:hover{background:#fff;color:var(--muted);border-color:var(--border)}
+
+/* ── CINEMATIC FEATURED ── */
+.featured-section{background:var(--ink);padding:6rem 3rem;overflow:hidden}
+.feat-inner{max-width:1320px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.feat-media{position:relative;border-radius:var(--r2);overflow:hidden;aspect-ratio:4/3;box-shadow:0 16px 48px rgba(10,37,64,.16)}
+.feat-media canvas{width:100%;height:100%;display:block;transition:transform .8s var(--ease2)}
+.feat-media:hover canvas{transform:scale(1.03)}
+.feat-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,8,15,.25);transition:background .3s}
+.feat-media:hover .feat-play-btn{background:rgba(4,8,15,.15)}
+.play-circle{width:72px;height:72px;background:rgba(255,255,255,.15);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,.35);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease2),background .3s}
+.feat-media:hover .play-circle{transform:scale(1.1);background:rgba(255,255,255,.25)}
+.play-circle svg{width:26px;height:26px;margin-left:4px}
+.feat-badge-vid{position:absolute;top:16px;left:16px;background:var(--gold);color:#fff;font-size:.65rem;font-weight:700;padding:.22rem .75rem;border-radius:20px;letter-spacing:.08em;text-transform:uppercase}
+.feat-vid-dur{position:absolute;bottom:14px;right:14px;background:rgba(4,8,15,.65);backdrop-filter:blur(6px);color:rgba(255,255,255,.8);font-size:.7rem;padding:.2rem .65rem;border-radius:6px}
+.feat-info{padding:.5rem 0}
+.feat-eyebrow{font-size:.7rem;font-weight:600;color:var(--gold-light);text-transform:uppercase;letter-spacing:.18em;margin-bottom:1rem}
+.feat-title{font-family:'Cormorant Garamond',serif;color:#fff;font-size:clamp(2rem,3.5vw,3rem);font-weight:300;line-height:1.1;letter-spacing:-.02em;margin-bottom:1.25rem}
+.feat-title em{font-style:italic;color:var(--gold-light)}
+.feat-specs-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1.5rem}
+.feat-spec{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:.8rem 1rem;transition:all .3s var(--ease);backdrop-filter:blur(10px)}
+.feat-spec:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15)}
+.feat-spec-label{font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.feat-spec-val{font-size:.92rem;color:#fff;font-weight:500}
+.feat-desc{color:rgba(255,255,255,.45);font-size:.9rem;line-height:1.75;margin-bottom:1.75rem}
+.feat-price-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1.1rem 1.4rem;margin-bottom:1rem;backdrop-filter:blur(10px);transition:all .3s var(--ease)}
+.feat-price-row:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)}
+.feat-price{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:#fff}
+.feat-price-note{font-size:.7rem;color:rgba(255,255,255,.35);margin-top:2px}
+/* ── BOAT DETAIL ── */
+.boat-detail-wrap{background:var(--off);padding:5.5rem 3rem 4rem}
+.boat-detail-inner{max-width:1320px;margin:0 auto}
+.boat-detail-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.75rem;flex-wrap:wrap;gap:1rem}
+.boat-detail-title{font-family:'Cormorant Garamond',serif;color:var(--ink);font-size:clamp(1.6rem,3vw,2.4rem);font-weight:600;line-height:1.1}
+.boat-detail-layout{display:flex;flex-direction:column;gap:1.25rem}
+/* Gallery */
+.boat-gallery-wrap{position:relative;border-radius:14px;overflow:hidden;background:#111}
+.boat-gallery-main{width:100%;max-height:500px;object-fit:contain;background:#f0f0f0;display:block;transition:opacity .2s}
+.boat-gallery-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text);transition:background .2s;z-index:2;box-shadow:0 2px 12px rgba(0,0,0,.2);font-size:1.2rem;font-weight:700}
+.boat-gallery-arrow:hover{background:#fff}
+.boat-gallery-prev{left:14px}
+.boat-gallery-next{right:14px}
+.boat-gallery-thumbs{display:flex;gap:.5rem;margin-top:.5rem;overflow-x:auto;scrollbar-width:none}
+.boat-gallery-thumbs::-webkit-scrollbar{display:none}
+.boat-thumb{width:160px;height:108px;object-fit:cover;border-radius:8px;cursor:pointer;flex-shrink:0;border:2.5px solid transparent;opacity:.65;transition:all .2s}
+.boat-thumb.active,.boat-thumb:hover{border-color:var(--azure);opacity:1}
+.boat-thumb-count{position:relative;width:160px;height:108px;border-radius:8px;flex-shrink:0;overflow:hidden;cursor:pointer}
+.boat-thumb-count img{width:100%;height:100%;object-fit:cover;opacity:.45}
+.boat-thumb-count span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.82rem;font-weight:700;background:rgba(0,0,0,.35)}
+/* Bottom */
+.boat-detail-bottom{display:grid;grid-template-columns:240px 1fr;gap:1.5rem;align-items:start}
+.boat-detail-price-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:1.25rem 1.5rem;position:sticky;top:88px}
+.boat-detail-price{font-family:'Inter',sans-serif;font-size:1.8rem;font-weight:700;color:var(--ocean);line-height:1;margin-bottom:.25rem;letter-spacing:-.02em}
+.boat-detail-price-note{font-size:.72rem;color:var(--muted);margin-bottom:1rem}
+.boat-specs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-bottom:1.25rem;background:#fff;border:1.5px solid var(--border);border-radius:14px;overflow:hidden}
+.bsg-item{display:flex;align-items:center;gap:.85rem;padding:1rem 1.1rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.bsg-item:nth-child(4n){border-right:none}
+.bsg-item:nth-last-child(-n+4){border-bottom:none}
+.bsg-icon{width:44px;height:44px;border-radius:50%;background:#eef3f8;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bsg-icon svg{width:22px;height:22px;stroke:var(--ocean);fill:none;stroke-width:1.5}
+.bsg-label{font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:.15rem;line-height:1.2}
+.bsg-val{font-size:.8rem;color:var(--muted);line-height:1.2}
+@media(max-width:700px){.boat-specs-grid{grid-template-columns:repeat(2,1fr)}.bsg-item:nth-child(2n){border-right:none}.bsg-item:nth-child(4n){border-right:1px solid var(--border)}}
+.boat-detail-desc{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem}
+/* Accordion */
+.dacc{display:flex;flex-direction:column;gap:.6rem}
+.dacc-section{background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
+.dacc-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.25rem;background:none;border:none;font-family:'Inter',sans-serif;font-size:.88rem;font-weight:600;color:var(--text);cursor:pointer;text-align:left}
+.dacc-toggle svg{width:16px;height:16px;transition:transform .25s;flex-shrink:0;color:var(--muted)}
+.dacc-toggle.open svg{transform:rotate(180deg)}
+.dacc-body{display:none;padding:.25rem 1.25rem 1.25rem;border-top:1px solid var(--border)}
+.dacc-body.open{display:block}
+.dacc-cols{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem 2rem}
+.dacc-group-title{font-size:.75rem;font-weight:700;color:var(--text);margin:1rem 0 .5rem;padding-bottom:.35rem;border-bottom:1.5px solid var(--border)}
+.dacc-row{display:flex;align-items:center;justify-content:space-between;padding:.3rem 0;font-size:.8rem;border-bottom:1px solid rgba(0,0,0,.04)}
+.dacc-row:last-child{border-bottom:none}
+.dacc-row-label{color:var(--muted)}
+.dacc-row-val{color:var(--azure);font-weight:600;font-size:.8rem}
+.dacc-check{color:#1a9e5a;font-weight:700;font-size:.9rem}
+.dacc-desc{font-size:.85rem;color:var(--muted);line-height:1.8;padding:.25rem 0}
+.dacc-desc p{margin-bottom:.85rem}
+.dacc-desc p:last-child{margin-bottom:0}
+@media(max-width:900px){.boat-detail-layout{grid-template-columns:1fr}.boat-detail-bottom{grid-template-columns:1fr}.boat-detail-price-box{position:static}.dacc-cols{grid-template-columns:1fr}}
+@media(max-width:700px){.boat-detail-wrap{padding:1.5rem 1rem 3rem}}
+.btn-feat-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:.75rem 1.6rem;border-radius:50px;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .3s var(--ease);box-shadow:0 6px 24px rgba(37,211,102,.35)}
+.btn-feat-wa:hover{background:#1fb358;transform:translateY(-3px);box-shadow:0 10px 36px rgba(37,211,102,.5)}
+.btn-feat-wa svg{width:20px;height:20px}
+
+/* ── CHARTER / ALQUILER ── */
+.charter-section{background:var(--deep);padding:5rem 3rem}
+.section-label{font-size:.7rem;font-weight:600;color:var(--gold-light);text-transform:uppercase;letter-spacing:.2em;margin-bottom:.75rem}
+.section-h{font-family:'Cormorant Garamond',serif;color:#fff;font-size:clamp(1.8rem,3vw,2.8rem);font-weight:300;letter-spacing:-.02em;margin-bottom:.4rem}
+.section-sub{color:rgba(255,255,255,.35);font-size:.88rem;margin-bottom:2.5rem}
+.section-head-row{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:2.5rem}
+.section-link{color:var(--gold-light);font-size:.8rem;font-weight:500;text-decoration:none;display:flex;align-items:center;gap:5px;transition:gap .2s}
+.section-link:hover{gap:9px}
+.charter-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+.charter-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--r2);overflow:hidden;cursor:pointer;transition:transform .4s var(--ease2),border-color .3s,background .3s;backdrop-filter:blur(10px)}
+.charter-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08)}
+.charter-media{position:relative;height:150px;overflow:hidden}
+.charter-media canvas{width:100%;height:150px;display:block;transition:transform .6s var(--ease2)}
+.charter-card:hover .charter-media canvas{transform:scale(1.06)}
+.charter-body{padding:.85rem 1rem}
+.charter-kicker{font-size:.62rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.charter-name{color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:600;margin-bottom:.4rem}
+.charter-row{display:flex;justify-content:space-between;align-items:center}
+.charter-loc{color:rgba(255,255,255,.4);font-size:.72rem;display:flex;align-items:center;gap:3px}
+.charter-loc svg{width:10px;height:10px}
+.charter-price{color:var(--gold-light);font-size:.85rem;font-weight:600}
+
+/* ── SCROLL REVEAL SECTIONS ── */
+.reveal-section{padding:5rem 3rem;background:var(--off)}
+.reveal-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.reveal-text .section-label{color:var(--azure)}
+.reveal-text .section-h{color:var(--ink)}
+.reveal-text .section-sub{color:var(--muted)}
+.reveal-media{border-radius:var(--r2);overflow:hidden;aspect-ratio:4/3;background:var(--foam)}
+.reveal-media canvas{width:100%;height:100%;display:block}
+
+/* ── BRANDS MARQUEE ── */
+.brands-section{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:1.5rem 3rem}
+.brands-inner{max-width:1320px;margin:0 auto;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.brands-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-right:.75rem;white-space:nowrap}
+.brand-pill{background:var(--off);border:1.5px solid var(--border);border-radius:8px;padding:.38rem .9rem;font-size:.76rem;font-weight:500;color:var(--text);cursor:pointer;transition:all .3s var(--ease);text-decoration:none}
+.brand-pill:hover{background:var(--ink);color:#fff;border-color:var(--ink);transform:translateY(-2px);box-shadow:0 4px 12px rgba(10,37,64,.18)}
+
+/* ── PORTS ── */
+.ports-section{background:var(--off);padding:4rem 3rem;border-top:1px solid var(--border)}
+.ports-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:.75rem}
+.port-card{background:#fff;border:1.5px solid var(--border);border-radius:var(--r2);padding:1.25rem 1rem;text-align:center;cursor:pointer;transition:all .35s var(--ease2)}
+.port-card:hover{border-color:var(--gold);box-shadow:0 12px 32px rgba(201,160,48,.15);transform:translateY(-4px)}
+.port-icon{font-size:1.6rem;margin-bottom:.5rem}
+.port-name{font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.port-count{font-size:.7rem;color:var(--muted)}
+
+/* ── DIRECTORY ── */
+.dir-section{background:#fff;padding:4rem 3rem;border-top:1px solid var(--border)}
+.dir-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.dir-card{background:var(--off);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;transition:all .35s var(--ease2)}
+.dir-card:hover{box-shadow:0 12px 36px rgba(10,37,64,.12);transform:translateY(-3px);border-color:var(--azure)}
+.dir-kicker{font-size:.65rem;font-weight:600;color:var(--azure);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.35rem}
+.dir-name{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.dir-loc{font-size:.78rem;color:var(--muted)}
+
+/* ── SELL CTA FOOTER ── */
+.sell-section{background:var(--ink);padding:3rem 3rem 0;border-top:1px solid rgba(255,255,255,.06)}
+.sell-inner{max-width:1320px;margin:0 auto}
+.sell-simple{display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding-bottom:3rem;border-bottom:1px solid rgba(255,255,255,.07)}
+.sell-eyebrow{font-size:.82rem;font-weight:600;color:#fff;margin-bottom:.4rem}
+.sell-simple-text{color:rgba(255,255,255,.4);font-size:.88rem;line-height:1.6;max-width:420px}
+.sell-ctas{display:flex;gap:.75rem;flex-wrap:wrap;flex-shrink:0}
+.btn-sell-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:.7rem 1.4rem;border-radius:50px;font-size:.85rem;font-weight:600;text-decoration:none;transition:all .3s var(--ease);white-space:nowrap}
+.btn-sell-wa:hover{background:#1fb358;transform:translateY(-2px)}
+.btn-sell-wa svg{width:18px;height:18px}
+.btn-sell-ghost{display:inline-flex;align-items:center;background:transparent;color:rgba(255,255,255,.5);border:1.5px solid rgba(255,255,255,.15);padding:.7rem 1.3rem;border-radius:50px;font-size:.85rem;text-decoration:none;transition:all .3s var(--ease);white-space:nowrap}
+.btn-sell-ghost:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.sell-bottom{padding:1.25rem 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.sell-copy{color:rgba(255,255,255,.2);font-size:.75rem}
+.sell-legal{display:flex;gap:1.5rem}
+.sell-legal a{color:rgba(255,255,255,.18);font-size:.72rem;text-decoration:none;transition:color .2s}
+.sell-legal a:hover{color:rgba(255,255,255,.5)}
+@media(max-width:700px){.sell-simple{flex-direction:column;align-items:flex-start}.sell-section{padding:2.5rem 1.25rem 0}}
+
+/* ── WHATSAPP ── */
+.wa{position:fixed;bottom:32px;right:32px;z-index:600;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:8px}
+.wa-pill{background:#fff;color:#25D366;font-size:.75rem;font-weight:700;padding:.4rem 1rem;border-radius:24px;box-shadow:0 4px 24px rgba(37,211,102,.3);white-space:nowrap;transform:translateX(0);transition:transform .3s var(--ease),box-shadow .3s var(--ease);letter-spacing:.05em}
+.wa-circle{width:64px;height:64px;background:linear-gradient(135deg,#25D366,#1fb358);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(37,211,102,.6);position:relative;transition:transform .35s var(--ease2),box-shadow .35s var(--ease2)}
+.wa:hover .wa-circle{transform:scale(1.12);box-shadow:0 12px 48px rgba(37,211,102,.7)}
+.wa:hover .wa-pill{transform:translateX(-8px);box-shadow:0 6px 32px rgba(37,211,102,.4)}
+.wa-ring{position:absolute;inset:0;border-radius:50%;background:rgba(37,211,102,.25);animation:waRing 2.4s ease-out infinite;box-shadow:inset 0 0 0 2px rgba(37,211,102,.15)}
+@keyframes waRing{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.9);opacity:0}}
+.wa-circle svg{width:36px;height:36px;position:relative;z-index:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.1))}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1080px){
+  nav{padding:0 1.5rem}
+  .hero{height:85vh}
+  .main-layout{padding:2rem 1.5rem}
+  .layout-inner{display:block}
+
+/* Modal boat details */
+.boat-modal{position:fixed;inset:0;display:none;z-index:900;align-items:center;justify-content:center}
+.boat-modal.open{display:flex}
+.boat-modal-backdrop{position:absolute;inset:0;background:rgba(4,8,15,.6)}
+.boat-modal-panel{position:relative;background:#fff;border-radius:14px;max-width:980px;width:96%;max-height:86vh;overflow:auto;display:flex;flex-direction:column}
+.boat-modal-close{position:absolute;right:12px;top:8px;background:none;border:none;font-size:26px;color:#444;cursor:pointer}
+.boat-modal-body{display:flex;gap:1rem;padding:1rem}
+.boat-gallery{flex:1;display:flex;flex-direction:column;gap:.6rem}
+.boat-gallery img{width:100%;height:360px;object-fit:cover;border-radius:8px}
+.boat-thumbs{display:flex;gap:.5rem}
+.boat-thumbs .thumb{width:72px;height:56px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid transparent}
+.boat-thumbs .thumb:hover{border-color:var(--azure)}
+.boat-info{width:360px;padding:.6rem}
+.boat-price{font-size:1.4rem;font-weight:700;color:var(--ocean);margin-bottom:.6rem}
+.boat-specs-list div{margin-bottom:.45rem;color:#333}
+.boat-info p{color:#444}
+
+@media(max-width:800px){
+  .boat-modal-body{flex-direction:column}
+  .boat-info{width:100%}
+  .boat-gallery img{height:260px}
+}
+  .feat-inner{grid-template-columns:1fr;gap:2.5rem}
+  .charter-grid{grid-template-columns:repeat(2,1fr)}
+  .reveal-grid{grid-template-columns:1fr;gap:2rem}
+  .ports-grid{grid-template-columns:repeat(3,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr 1fr}
+  .featured-section,.charter-section,.reveal-section,.brands-section,.ports-section,.dir-section{padding:4rem 1.5rem}
+  .search-panel{padding:2rem 1.5rem}
+  .stats-row{padding:2rem 1.5rem}
+}
+@media(max-width:700px){
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none}
+  nav{padding:0 1rem}
+  .nav-links,.nav-actions .btn-nav-ghost{display:none}
+  .logo-sub{display:none}
+  .logo-name{font-size:1.05rem}
+  .logo-mark{width:32px;height:32px}
+  .hero h1{font-size:2rem}
+  .hero-sub{font-size:.82rem;max-width:100%}
+  .hero-ctas{gap:.6rem}
+  .btn-hero-primary,.btn-hero-ghost{padding:.72rem 1.5rem;font-size:.85rem}
+  .hero-scroll-indicator{display:none}
+  .search-panel{padding:1.25rem 1rem 1rem}
+  .filter-card{padding:1rem}
+  .filter-tabs-row{flex-wrap:wrap;gap:.35rem;padding-bottom:.25rem}
+  .filter-tabs-left{gap:0;flex-wrap:wrap}
+  .ftab{font-size:.8rem;padding:.45rem .85rem .6rem}
+  .filter-row-1{grid-template-columns:1fr}
+  .filter-row-2{grid-template-columns:1fr}
+  .btn-search-new{grid-column:1/-1;padding:.72rem;font-size:.875rem}
+  .stats-inner{grid-template-columns:repeat(3,1fr)}
+  .stat-item:nth-child(n+4){display:none}
+  .stat-num{font-size:2rem}
+  .boats-grid{grid-template-columns:1fr}
+  .list-toolbar{flex-direction:column;align-items:flex-start;gap:.6rem}
+  .toolbar-r{width:100%;justify-content:space-between}
+  .sort-sel{flex:1;max-width:calc(100% - 80px)}
+  .charter-grid{grid-template-columns:1fr}
+  .ports-grid{grid-template-columns:repeat(2,1fr)}
+  .dir-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .main-layout{padding:1.5rem 1rem}
+  .boat-detail-bottom{grid-template-columns:1fr}
+  .boat-detail-price-box{position:static;order:-1;margin-bottom:.25rem}
+  .boat-specs-grid{grid-template-columns:repeat(2,1fr)}
+  .bsg-item:nth-child(2n){border-right:none}
+  .bsg-item:nth-child(4n){border-right:1px solid var(--border)}
+  .featured-section{padding:3rem 1.25rem}
+  .charter-section{padding:3rem 1.25rem}
+  .reveal-section{padding:3rem 1.25rem}
+  .brands-section{padding:1.25rem 1rem}
+  .ports-section{padding:2.5rem 1rem}
+  .dir-section{padding:2.5rem 1rem}
+  .section-head-row{flex-direction:column;align-items:flex-start;gap:.75rem;margin-bottom:1.5rem}
+  .feat-specs-grid{grid-template-columns:1fr}
+  .wa{bottom:16px;right:16px}
+  .wa-circle{width:52px;height:52px}
+  .wa-circle svg{width:28px;height:28px}
+  .wa-pill{font-size:.68rem;padding:.3rem .75rem}
+  .cat-track{padding:.75rem 1rem}
+}
+@media(max-width:420px){
+  .hero h1{font-size:1.7rem}
+  .hero-eyebrow{font-size:.65rem}
+  .filter-card{padding:.875rem .75rem}
+  .ftab{font-size:.74rem;padding:.4rem .65rem .55rem}
+  .card-body{padding:.75rem .875rem .875rem}
+  .boats-grid{gap:.875rem}
+  .lang-btn{padding:.38rem .65rem;font-size:.75rem}
+  .stat-num{font-size:1.75rem}
+  .stat-label{font-size:.6rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg class="logo-mark" viewBox="0 0 38 38" fill="none">
+        <path d="M5 28C5 28 9.5 20 19 20C28.5 20 33 28 33 28L31 34H7Z" fill="#4da6d4" opacity=".9"/>
+        <path d="M19 5L25.5 20H12.5Z" fill="white"/>
+        <line x1="19" y1="5" x2="19" y2="20" stroke="#b8832a" stroke-width="1.8"/>
+        <path d="M4 34Q19 37.5 34 34" stroke="#1d6fa4" stroke-width="2" fill="none"/>
+      </svg>
+      <div class="logo-text">
+        <span class="logo-name">Barcos en Mallorca</span>
+        <span class="logo-sub">Portal náutico premium</span>
+      </div>
+    </a>
+
+    <div class="lang-select" id="langSelect">
+      <button class="lang-btn" onclick="toggleLangMenu()">
+        <img id="langFlag" class="lang-btn-flag" src="https://flagcdn.com/20x15/es.png" alt="ES">
+        <span id="langName">ES</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="lang-drop">
+        <button class="lang-opt active" onclick="setLang('es','https://flagcdn.com/20x15/es.png','ES')"><img class="lang-flag" src="https://flagcdn.com/20x15/es.png" alt="ES"> España · Español</button>
+        <button class="lang-opt" onclick="setLang('en','https://flagcdn.com/20x15/us.png','EN')"><img class="lang-flag" src="https://flagcdn.com/20x15/us.png" alt="US"> United States · English</button>
+        <button class="lang-opt" onclick="setLang('en','https://flagcdn.com/20x15/gb.png','EN')"><img class="lang-flag" src="https://flagcdn.com/20x15/gb.png" alt="GB"> United Kingdom · English</button>
+        <button class="lang-opt" onclick="setLang('fr','https://flagcdn.com/20x15/fr.png','FR')"><img class="lang-flag" src="https://flagcdn.com/20x15/fr.png" alt="FR"> France · Français</button>
+        <button class="lang-opt" onclick="setLang('it','https://flagcdn.com/20x15/it.png','IT')"><img class="lang-flag" src="https://flagcdn.com/20x15/it.png" alt="IT"> Italia · Italiano</button>
+        <button class="lang-opt" onclick="setLang('nl','https://flagcdn.com/20x15/nl.png','NL')"><img class="lang-flag" src="https://flagcdn.com/20x15/nl.png" alt="NL"> Nederland · Nederlands</button>
+        <button class="lang-opt" onclick="setLang('de','https://flagcdn.com/20x15/de.png','DE')"><img class="lang-flag" src="https://flagcdn.com/20x15/de.png" alt="DE"> Deutschland · Deutsch</button>
+      </div>
+    </div>
+
+    <div class="nav-links">
+    </div>
+
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <img class="hero-bg" src="images/hero-barco.jpg" alt="Velero en cala de Menorca">
+  <div class="hero-noise"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-bottom-fade"></div>
+  <div class="hero-content">
+    <h1>Compra y vende <em>embarcaciones</em></h1>
+    <p class="hero-sub">Portal náutico · España</p>
+  </div>
+</section>
+
+
+<!-- SEARCH -->
+<div class="search-panel">
+  <div class="search-wrap">
+    <div class="filter-card">
+      <!-- Tabs -->
+      <div class="filter-tabs-row">
+        <div class="filter-tabs-left">
+          <button class="ftab active" data-type="todos">Todos</button>
+          <button class="ftab" data-type="barco-a-motor">Barcos a motor</button>
+          <button class="ftab" data-type="velero">Veleros</button>
+        </div>
+      </div>
+      <!-- Fila 1: Estado · Tipo · Marca -->
+      <div class="filter-row-1">
+        <div class="ff">
+          <label class="ff-label">Estado</label>
+          <select class="ff-select" id="searchStatus">
+            <option value="todos">Estado</option>
+            <option value="segunda-mano">Segunda mano</option>
+            <option value="nuevo">Nuevo / Stock</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label class="ff-label">Tipo</label>
+          <select class="ff-select" id="searchType">
+            <option value="todos">Tipo</option>
+            <option value="velero">Velero</option>
+            <option value="barco-a-motor">Barco a motor</option>
+            <option value="yate-a-motor">Yate a motor</option>
+            <option value="catamaran">Catamarán</option>
+            <option value="semirigida-rib">Semirígida / RIB</option>
+            <option value="pesca">Pesca</option>
+            <option value="moto-de-agua">Moto de agua</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label class="ff-label">Marca</label>
+          <select class="ff-select" id="searchBrand">
+            <option value="">Todas las marcas</option>
+            <option value="bavaria">Bavaria</option>
+            <option value="bennasar">Bennasar</option>
+            <option value="beneteau">Bénéteau</option>
+            <option value="azimut">Azimut</option>
+            <option value="jeanneau">Jeanneau</option>
+            <option value="lagoon">Lagoon</option>
+            <option value="sunseeker">Sunseeker</option>
+            <option value="starfisher">Starfisher</option>
+            <option value="fairline">Fairline</option>
+            <option value="princess">Princess</option>
+            <option value="cranchi">Cranchi</option>
+            <option value="sea ray">Sea Ray</option>
+          </select>
+        </div>
+      </div>
+      <!-- Fila 2: Precio · Año · Eslora · Buscar -->
+      <div class="filter-row-2">
+        <div class="ff">
+          <label class="ff-label">Precio</label>
+          <select class="ff-select" id="priceRange">
+            <option value="">Cualquier precio</option>
+            <option value="0-10000">Hasta 10.000 €</option>
+            <option value="0-25000">Hasta 25.000 €</option>
+            <option value="0-50000">Hasta 50.000 €</option>
+            <option value="0-100000">Hasta 100.000 €</option>
+            <option value="0-200000">Hasta 200.000 €</option>
+            <option value="100000-9999999">Más de 100.000 €</option>
+            <option value="200000-9999999">Más de 200.000 €</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label class="ff-label">Año</label>
+          <select class="ff-select" id="yearRange">
+            <option value="">Cualquier año</option>
+            <option value="2022-9999">2022 o más nuevo</option>
+            <option value="2018-2021">2018 – 2021</option>
+            <option value="2013-2017">2013 – 2017</option>
+            <option value="2008-2012">2008 – 2012</option>
+            <option value="0-2007">Antes de 2008</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label class="ff-label">Eslora</label>
+          <select class="ff-select" id="lengthRange">
+            <option value="">Cualquier eslora</option>
+            <option value="0-6">Menos de 6 m</option>
+            <option value="6-8">6 – 8 m</option>
+            <option value="8-10">8 – 10 m</option>
+            <option value="10-12">10 – 12 m</option>
+            <option value="12-15">12 – 15 m</option>
+            <option value="15-999">Más de 15 m</option>
+          </select>
+        </div>
+        <button class="btn-search-new" id="searchButton">Buscar</button>
+      </div>
+    </div>
+
+    <!-- Panel búsqueda avanzada -->
+    <div class="adv-filters" id="advFiltersBody" style="display:none!important">
+      <div class="adv-grid">
+        <div class="adv-group">
+          <div class="adv-group-label">Motor</div>
+          <div class="cb-list">
+            <label class="cb"><input type="checkbox" id="motorDiesel" value="diesel" data-filter-group="motor"> Diésel <span class="cb-ct">112</span></label>
+            <label class="cb"><input type="checkbox" id="motorGasoline" value="gasolina" data-filter-group="motor"> Gasolina <span class="cb-ct">68</span></label>
+            <label class="cb"><input type="checkbox" id="motorSail" value="sin motor" data-filter-group="motor"> Sin motor (vela) <span class="cb-ct">58</span></label>
+            <label class="cb"><input type="checkbox" id="motorElectric" value="eléctrico" data-filter-group="motor"> Eléctrico <span class="cb-ct">9</span></label>
+          </div>
+        </div>
+        <div class="adv-group">
+          <div class="adv-group-label">Ubicación</div>
+          <div class="cb-list">
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="barcelona"> Barcelona <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="valencia"> Valencia <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="palma"> Palma de Mallorca <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="ibiza"> Ibiza <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="puerto de mahón"> Menorca <span class="cb-ct">82</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="alicante"> Alicante <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="málaga"> Málaga <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="marbella"> Marbella <span class="cb-ct">0</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="location" value="vigo"> Vigo <span class="cb-ct">0</span></label>
+          </div>
+        </div>
+        <div class="adv-group">
+          <div class="adv-group-label">Estado</div>
+          <div class="cb-list">
+            <label class="cb"><input type="checkbox" id="stateUsed" value="segunda-mano" data-filter-group="estado" checked> Segunda mano <span class="cb-ct">198</span></label>
+            <label class="cb"><input type="checkbox" id="stateNew" value="nuevo" data-filter-group="estado"> Nuevo / Stock <span class="cb-ct">49</span></label>
+          </div>
+        </div>
+        <div class="adv-group">
+          <div class="adv-group-label">Marca</div>
+          <div class="cb-list">
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="bavaria"> Bavaria <span class="cb-ct">18</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="jeanneau"> Jeanneau <span class="cb-ct">14</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="beneteau"> Bénéteau <span class="cb-ct">12</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="lagoon"> Lagoon <span class="cb-ct">8</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="sunseeker"> Sunseeker <span class="cb-ct">7</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="azimut"> Azimut <span class="cb-ct">5</span></label>
+            <label class="cb"><input type="checkbox" data-filter-group="brand" value="starfisher"> Starfisher <span class="cb-ct">0</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout" id="anuncios">
+  <div class="layout-inner">
+
+    <!-- LISTINGS -->
+    <div>
+      <div class="list-toolbar">
+        <span class="list-count"><strong>248 barcos</strong> en España</span>
+        <div class="toolbar-r">
+          <select class="sort-sel">
+            <option>Recomendados</option>
+            <option>Más recientes</option>
+            <option>Precio: menor primero</option>
+            <option>Precio: mayor primero</option>
+            <option>Eslora: menor</option>
+            <option>Eslora: mayor</option>
+            <option>Año: más nuevo</option>
+            <option>Marca: A → Z</option>
+          </select>
+          <div class="view-toggle">
+            <button class="vbtn active" id="vg" onclick="setView('grid')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></button>
+            <button class="vbtn" id="vl" onclick="setView('list')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="boats-grid reveal" id="boatsGrid">
+        <div class="card starfisher-card" data-specs='{"title":"Starfisher 32 Cruiser 2004","price":"86.311 €","eslora":"9,8 m","year":"2004","motor":"Yanmar diesel","potencia":"274 cv","horas":"800 h","clase":"Cruceros","modelo":"32 Cruiser","capacidad":"6 personas","cabins":"2","berths":"6","location":"Palma, España","description":"Starfisher 32 Cruiser 2004 en Palma. Motor diesel con 2 x Yanmar (800 h), 6 literas y tanque amplio para travesías costeras.","descriptionLong":"<p>Starfisher 34 en Versión L – Confort y fiabilidad para el crucero</p><p>Se ofrece <strong>Starfisher 34 en venta</strong>, una de las embarcaciones más reconocidas del astillero Starfisher por su <strong>robustez, seguridad en navegación y excelente aprovechamiento del espacio</strong>. Un modelo muy valorado por su fiabilidad y comportamiento en el mar.</p><p>Esta unidad corresponde a la <strong>versión L del Starfisher 34</strong>, la variante más equipada y orientada al <strong>crucero confortable</strong>, similar a lo que muchos conocen como versión <em>Cruiser</em>, se trata del modelo con mayor nivel de acabados y una distribución interior pensada para estancias prolongadas a bordo, algo que puede apreciarse claramente en las fotografías.</p><p>El <strong>Starfisher 34</strong> destaca por su casco estable y marinero, ofreciendo una navegación segura y cómoda incluso con mar formada. Es una embarcación ideal tanto para salidas de día como para <strong>cruceros de varios días</strong>, gracias a su buen equilibrio entre prestaciones, espacio interior y facilidad de manejo.</p><p>Una opción muy interesante para quien busca un barco sólido, bien diseñado y con una excelente relación calidad-precio dentro de su eslora.</p>","images":["images/starfisher32-1.jpg.png","images/starfisher32-2.jpg.png"],"additional":"Beam 12,07 ft • Draft 2,95 ft • Fuel 3.028 gal • Condición usada","features":{"Equipo eléctrico":["Entrada de corriente externa"],"Electrónica":["Sonda","Radar","Corredera / Velocímetro","TV","Centro de navegación","Plotter / Graficador","Brújula","GPS","Radio VHF"],"Equipamiento interior":["Propulsor de proa","Microondas","WC marino","Nevera"],"Equipamiento exterior":["Bañera en teca","Ducha en bañera","Pescantes","Embarcación auxiliar","Cojines en bañera","Escalera de baño"]},"propulsion":{"Motor 1":{"Marca":"VOLVO","Modelo":"DIESEL KAMD 300","Año":"2004","Potencia":"274 cv","Horas":"735 h","Tipo":"Interior","Combustible":"Diésel"},"Motor 2":{"Marca":"VOLVO","Modelo":"DIESEL KAMD 300","Año":"2004","Potencia":"274 cv","Horas":"735 h","Tipo":"Interior","Combustible":"Diésel"}},"medidas":{"Dimensiones":{"Eslora total":"10,29 m","Manga":"3,68 m"},"Tanques":{"Agua dulce":"1 × 100 l","Carburante":"2 × 300 l"},"Miscelánea":{"Material del casco":"Fibra de vidrio / poliéster"},"Alojamiento":{"Cabinas":"2","WC":"1"}}}' data-price="86311" data-year="2004" data-length="9.8" data-type="barco-a-motor" data-status="segunda-mano" data-engine="diesel" data-brand="starfisher" data-location="palma">
+          <div class="card-media">
+            <img src="images/starfisher32-1.jpg.png" alt="Starfisher 32 Cruiser 2004 en Palma" style="width:100%;height:100%;object-fit:cover">
+            <span class="card-badge badge-used">Usado</span>
+            <span class="card-price-overlay">86.311 €</span>
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">Power cruiser · Flybridge</div>
+            <div class="card-title">Starfisher 32 Cruiser · 2004</div>
+            <div class="card-specs">
+              <span class="cs">9,8 m</span>
+              <span class="cs">2× Yanmar</span>
+              <span class="cs">6 literas</span>
+            </div>
+            <div class="card-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Palma, España</div>
+            <div class="card-foot">
+              <span class="price-main">86.311 €</span>
+              <a class="btn-cta">Ver detalle</a>
+            </div>
+          </div>
+        </div>
+        <!-- LLAUT BENNASAR -->
+        <div class="card llaut-card" data-specs='{"title":"Llaut Bennasar Aucanada 37 · 2004","price":"50.000 €","eslora":"7,49 m","year":"2004","motor":"2 × Yanmar","potencia":"75 cv","horas":"—","clase":"Llaut","modelo":"Aucanada 37","capacidad":"6 personas","cabins":"1","berths":"2","location":"Mallorca, España","description":"Llaut Bennasar Aucanada 37 del 2004 en perfecto estado. Tratamiento preventivo antiosmosis realizado, motores totalmente revisados y navegación perfecta. Embarcación típica balear ideal para disfrutar del Mediterráneo.","descriptionLong":"<p>Llaut Bennasar Aucanada 37 · 2004 — Una joya de la náutica balear</p><p>Se ofrece este <strong>Llaut Bennasar Aucanada 37</strong> del año 2004 en excelente estado de conservación. Embarcación típica de las <strong>Islas Baleares</strong>, perfecta para disfrutar del Mediterráneo con comodidad y fiabilidad.</p><p>El barco ha sido sometido a un <strong>exhaustivo tratamiento preventivo antiosmosis</strong>, garantizando la integridad del casco. Los motores han sido <strong>totalmente revisados</strong> y la embarcación presenta una navegación perfecta.</p><p>Con sus <strong>7,49 m de eslora</strong> y propulsión a dos motores Yanmar, este llaut combina las características tradicionales de la embarcación balear con las prestaciones necesarias para una navegación segura y cómoda. Ideal tanto para salidas de día como para estancias en cala.</p><p>Un llaut bien mantenido, con toda la documentación en regla y listo para navegar.</p>","images":["images/llaut/llaut-captura-1.png","images/llaut/2004-llaut-bennasar-aucanada-37-power-9949675-20250917033252374-4.jpg","images/llaut/2004-llaut-bennasar-aucanada-37-power-9949675-20250917033251530-1.jpg"],"features":{"Propulsión":["2 × Motor Yanmar","Hélices en perfecto estado"],"Estado":["Tratamiento antiosmosis realizado","Motores totalmente revisados","Documentación en regla"],"Equipamiento":["Equipo de navegación","Cabina interior","Baño a bordo"]},"propulsion":{"Motor 1":{"Marca":"Yanmar","Tipo":"Fueraborda / intraborda","Combustible":"Diésel"},"Motor 2":{"Marca":"Yanmar","Tipo":"Fueraborda / intraborda","Combustible":"Diésel"}},"medidas":{"Dimensiones":{"Eslora total":"7,49 m","Manga":"2,58 m"},"Alojamiento":{"Camarotes":"1","Baños":"1"}}}' data-price="50000" data-year="2004" data-length="7.49" data-type="barco-a-motor" data-status="segunda-mano" data-engine="diesel" data-brand="bennasar" data-location="palma">
+          <div class="card-media">
+            <img src="images/llaut/llaut-captura-1.png" alt="Llaut Bennasar Aucanada 37 2004 Mallorca" style="width:100%;height:100%;object-fit:cover">
+            <span class="card-badge badge-used">Usado</span>
+            <span class="card-price-overlay">50.000 €</span>
+          </div>
+          <div class="card-body">
+            <div class="card-kicker">Llaut · Mallorca</div>
+            <div class="card-title">Bennasar Aucanada 37 · 2004</div>
+            <div class="card-specs">
+              <span class="cs">7,49 m</span>
+              <span class="cs">2× Yanmar</span>
+              <span class="cs">1 camarote</span>
+            </div>
+            <div class="card-loc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/></svg>Mallorca, España</div>
+            <div class="card-foot">
+              <span class="price-main">50.000 €</span>
+              <a class="btn-cta">Ver detalle</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-results" id="boatsNoResults" style="display:none;grid-column:1/-1;padding:3rem 1rem;text-align:center;color:#555;background:#fff;border:1px solid var(--border);border-radius:1rem;">
+          <p>No hay embarcaciones que coincidan con los filtros.</p>
+        </div>
+      </div><!-- /boats-grid -->
+
+    </div>
+  </div>
+</div>
+
+<section id="boatDetail" class="boat-detail-wrap" style="display:none">
+  <div class="boat-detail-inner">
+    <div class="boat-detail-header">
+      <div class="boat-detail-title" id="boatDetailTitle">Starfisher 32 Cruiser 2004</div>
+      <a href="#" class="btn-nav-ghost" id="boatDetailBack" style="color:var(--text);border-color:var(--border)">← Volver al listado</a>
+    </div>
+    <div class="boat-detail-layout">
+      <!-- Galería full width -->
+      <div>
+        <div class="boat-gallery-wrap">
+          <img id="boatDetailImg" class="boat-gallery-main" src="https://dailyboats.com/bimg/6/8/5/5/3/boat/1.jpg" alt="">
+          <button class="boat-gallery-arrow boat-gallery-prev" onclick="galleryNav(-1)">&#8249;</button>
+          <button class="boat-gallery-arrow boat-gallery-next" onclick="galleryNav(1)">&#8250;</button>
+        </div>
+        <div class="boat-gallery-thumbs" id="boatGalleryThumbs"></div>
+      </div>
+      <!-- Specs + precio + accordion -->
+      <div class="boat-detail-bottom">
+        <!-- Precio sticky -->
+        <div class="boat-detail-price-box">
+          <div class="boat-detail-price" id="boatDetailPrice">86.311 €</div>
+          <div class="boat-detail-price-note">Precio de venta</div>
+          <a id="boatDetailContact" class="btn-sell-wa" target="_blank" style="width:100%;justify-content:center;border-radius:10px;margin-top:.25rem">
+            <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.08-1.33A9.957 9.957 0 0112 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Contactar por WhatsApp
+          </a>
+        </div>
+        <!-- Specs grid + accordion -->
+        <div>
+        <div class="boat-specs-grid" id="boatSpecsGrid">
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1010 10A10 10 0 0012 2zm0 18a8 8 0 118-8 8 8 0 01-8 8z"/><path d="M12 6v6l4 2"/></svg></div>
+            <div><div class="bsg-label">Motor</div><div class="bsg-val" id="boatDetailMotor">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg></div>
+            <div><div class="bsg-label">Potencia total</div><div class="bsg-val" id="boatDetailPotencia">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+            <div><div class="bsg-label">Horas de motor</div><div class="bsg-val" id="boatDetailHoras">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><path d="M3 17l4-8 4 4 4-6 4 10"/><path d="M3 20h18"/></svg></div>
+            <div><div class="bsg-label">Clase</div><div class="bsg-val" id="boatDetailClase">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><path d="M2 20h20M5 20V8l7-5 7 5v12"/><path d="M9 20v-5h6v5"/></svg></div>
+            <div><div class="bsg-label">Eslora</div><div class="bsg-val" id="boatDetailEslora">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+            <div><div class="bsg-label">Año</div><div class="bsg-val" id="boatDetailYear">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+            <div><div class="bsg-label">Modelo</div><div class="bsg-val" id="boatDetailModelo">—</div></div>
+          </div>
+          <div class="bsg-item">
+            <div class="bsg-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+            <div><div class="bsg-label">Capacidad</div><div class="bsg-val" id="boatDetailCabins">—</div></div>
+          </div>
+        </div>
+        <p class="boat-detail-desc" id="boatDetailDesc"></p>
+        <!-- Accordion -->
+        <div class="dacc" id="boatDetailAccordion"></div>
+        <button class="btn-apply" id="boatDetailClose" style="margin-top:1.25rem;background:var(--off);color:var(--muted);border:1.5px solid var(--border);box-shadow:none">Volver al listado</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CHARTER -->
+
+
+<!-- FOOTER -->
+<footer class="sell-section">
+  <div class="sell-inner">
+    <div class="sell-simple reveal">
+      <div>
+        <div class="sell-eyebrow">¿Quieres vender tu barco?</div>
+        <p class="sell-simple-text">Publica tu anuncio y llega a compradores de toda España. Contáctanos y lo gestionamos juntos.</p>
+      </div>
+      <div class="sell-ctas">
+        <a href="https://wa.me/34623972024?text=Hola,%20quiero%20publicar%20mi%20barco%20en%20Menorca" class="btn-sell-wa" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.08-1.33A9.957 9.957 0 0112 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/></svg>
+          WhatsApp · 623 97 20 24
+        </a>
+      </div>
+    </div>
+    <div class="sell-bottom">
+      <span class="sell-copy">© 2025 Barcos en Mallorca · España</span>
+      <div class="sell-legal">
+        <a href="#">Aviso legal</a>
+        <a href="#">Privacidad</a>
+        <a href="#">Cookies</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/34623972024?text=Hola,%20me%20gustar%C3%ADa%20información%20sobre%20una%20embarcación" class="wa" target="_blank" rel="noopener">
+  <div class="wa-circle">
+    <div class="wa-ring"></div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="white">
+      <path d="M16 0C7.163 0 0 7.163 0 16c0 2.833.738 5.493 2.027 7.807L0 32l8.418-2.004A15.93 15.93 0 0016 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.333a13.27 13.27 0 01-6.77-1.853l-.486-.29-5.002 1.19 1.234-4.869-.318-.501A13.267 13.267 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.27-9.906c-.398-.199-2.353-1.161-2.718-1.293-.364-.133-.629-.199-.894.199-.265.398-1.026 1.293-1.258 1.558-.232.265-.464.298-.862.1-.398-.2-1.681-.619-3.203-1.976-1.184-1.056-1.983-2.36-2.215-2.758-.232-.398-.025-.613.174-.811.179-.178.398-.464.597-.696.199-.232.265-.398.398-.663.133-.265.066-.497-.033-.696-.1-.199-.894-2.155-1.225-2.95-.323-.775-.65-.67-.894-.682l-.762-.013c-.265 0-.696.1-1.06.497-.364.398-1.39 1.358-1.39 3.314s1.423 3.844 1.622 4.109c.199.265 2.8 4.275 6.784 5.994.948.41 1.688.654 2.265.837.952.303 1.818.26 2.503.158.764-.114 2.353-.962 2.685-1.891.332-.929.332-1.726.232-1.891-.099-.165-.364-.265-.762-.464z"/>
+    </svg>
+  </div>
+  <span class="wa-pill">623 97 20 24</span>
+</a>
+
+<script>
+// ── LANG SELECTOR ──
+function toggleLangMenu(){
+  document.getElementById('langSelect').classList.toggle('open');
+}
+document.addEventListener('click',function(e){
+  var ls=document.getElementById('langSelect');
+  if(ls&&!ls.contains(e.target))ls.classList.remove('open');
+});
+function setLang(lang,flag,code){
+  var flagEl=document.getElementById('langFlag');
+  if(flagEl.tagName==='IMG'){flagEl.src=flag;flagEl.alt=code;}
+  else{flagEl.textContent=flag;}
+  document.getElementById('langName').textContent=code;
+  document.getElementById('langSelect').classList.remove('open');
+  localStorage.setItem('siteLang',lang);
+  localStorage.setItem('siteFlag',flag);
+  localStorage.setItem('siteCode',code);
+  applyLang(lang);
+}
+function restoreFlag(){
+  var flag=localStorage.getItem('siteFlag');
+  var code=localStorage.getItem('siteCode');
+  if(!flag||!code)return;
+  var flagEl=document.getElementById('langFlag');
+  var nameEl=document.getElementById('langName');
+  if(flagEl&&flagEl.tagName==='IMG'){flagEl.src=flag;flagEl.alt=code;}
+  if(nameEl)nameEl.textContent=code;
+}
+function applyLang(lang){
+  if(lang==='es'){
+    document.cookie='googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/';
+    document.cookie='googtrans=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;domain='+location.hostname;
+    localStorage.removeItem('siteLang');
+    localStorage.removeItem('siteFlag');
+    localStorage.removeItem('siteCode');
+    location.reload();
+    return;
+  }
+  document.cookie='googtrans=/es/'+lang+';path=/';
+  document.cookie='googtrans=/es/'+lang+';path=/;domain='+location.hostname;
+  var tries=0;
+  var poll=setInterval(function(){
+    var combo=document.querySelector('.goog-te-combo');
+    if(combo){
+      clearInterval(poll);
+      combo.value=lang;
+      combo.dispatchEvent(new Event('change'));
+      // Re-aplicar bandera tras la traducción
+      setTimeout(restoreFlag,800);
+      setTimeout(restoreFlag,2000);
+    } else if(++tries>30){
+      clearInterval(poll);
+    }
+  },300);
+}
+// Restaurar idioma y bandera al cargar
+document.addEventListener('DOMContentLoaded',function(){
+  var lang=localStorage.getItem('siteLang');
+  if(lang&&lang!=='es'){
+    restoreFlag();
+    applyLang(lang);
+  }
+});
+
+// ── NAV SCROLL ──
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',window.scrollY>60)});
+
+// ── SCROLL REVEAL ──
+const revealEls=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}});
+},{threshold:.12,rootMargin:'0px 0px -60px 0px'});
+revealEls.forEach(el=>observer.observe(el));
+
+// ── STATS COUNTER ──
+const statObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');statObs.unobserve(e.target);}});
+},{threshold:.3});
+document.querySelectorAll('.stat-item').forEach((el,i)=>{el.style.transitionDelay=(i*.1)+'s';statObs.observe(el);});
+
+// ── TYPE TABS ──
+document.querySelectorAll('.ftab').forEach(tab=>{
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+    this.classList.add('active');
+    const type=this.dataset.type||'todos';
+    const st=document.getElementById('searchType');
+    if(st){st.value=type==='yate-a-motor'?'yate-a-motor':type;}
+    if(typeof filterBoatCards==='function')filterBoatCards();
+  });
+});
+
+// ── ADVANCED FILTERS TOGGLE ──
+function toggleAdvFilters(){
+  const btn=document.getElementById('advFiltersBtn');
+  const body=document.getElementById('advFiltersBody');
+  if(!btn||!body)return;
+  body.classList.toggle('open');
+  btn.textContent=body.classList.contains('open')?'Ocultar búsqueda avanzada':'Búsqueda avanzada';
+}
+
+// ── VIEW ──
+function setView(v){document.getElementById('vg').classList.toggle('active',v==='grid');document.getElementById('vl').classList.toggle('active',v==='list');}
+
+// ── FAV ──
+function fav(b){b.classList.toggle('on');b.textContent=b.classList.contains('on')?'♥':'♡';}
+
+// ── CATEGORY CHIPS ──
+function categoryTypeFromChip(text){
+  if(text.startsWith('Todo')) return 'todos';
+  if(text.includes('Veleros')) return 'velero';
+  if(text.includes('Barcos a motor')) return 'barco-a-motor';
+  if(text.includes('Yates motor')) return 'yate-a-motor';
+  if(text.includes('Catamaranes')) return 'catamaran';
+  if(text.includes('Semirígidas')) return 'semirigida-rib';
+  if(text.includes('Pesca')) return 'pesca';
+  if(text.includes('Motos de agua')) return 'moto-de-agua';
+  return 'todos';
+}
+document.querySelectorAll('.cat-chip').forEach(c=>{c.addEventListener('click',e=>{e.preventDefault();document.querySelectorAll('.cat-chip').forEach(x=>x.classList.remove('active'));c.classList.add('active');const type = categoryTypeFromChip(c.textContent.trim());const filterTypeEl = document.getElementById('filterType');if(filterTypeEl) filterTypeEl.value = type;const searchTypeEl = document.getElementById('searchType');if(searchTypeEl) searchTypeEl.value = type;filterBoatCards();});});
+
+// ── HERO CANVAS (disabled — using real photo) ──
+(function(){
+  const c=document.getElementById('heroCanvas');if(!c)return;
+  const ctx=c.getContext('2d');let t=0,W,H;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // Deep sky gradient
+    const sky=ctx.createLinearGradient(0,0,0,H*.6);
+    sky.addColorStop(0,'#020810');sky.addColorStop(.4,'#061220');sky.addColorStop(.7,'#0a1e35');sky.addColorStop(1,'#0f3050');
+    ctx.fillStyle=sky;ctx.fillRect(0,0,W,H);
+    // Stars
+    const stars=[];if(!draw._stars){draw._stars=[];for(let i=0;i<120;i++)draw._stars.push([Math.random()*W,Math.random()*H*.55,Math.random()]);}
+    draw._stars.forEach(([sx,sy,s])=>{const op=.3+.35*Math.sin(t*.6+s*8);ctx.fillStyle=`rgba(255,255,255,${op})`;ctx.beginPath();ctx.arc(sx*(W/window.innerWidth),sy,s<.5?.9:1.4,0,Math.PI*2);ctx.fill();});
+    // Moon glow
+    const mx2=W*.8,my2=H*.12;
+    const mg=ctx.createRadialGradient(mx2,my2,0,mx2,my2,100);
+    mg.addColorStop(0,'rgba(220,210,180,.12)');mg.addColorStop(1,'rgba(220,210,180,0)');
+    ctx.fillStyle=mg;ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='rgba(245,240,220,.88)';ctx.beginPath();ctx.arc(mx2,my2,26,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='rgba(6,18,32,.55)';ctx.beginPath();ctx.arc(mx2+12,my2-8,22,0,Math.PI*2);ctx.fill();
+    // Ocean
+    const ocean=ctx.createLinearGradient(0,H*.5,0,H);
+    ocean.addColorStop(0,'#0f3050');ocean.addColorStop(.3,'#061a30');ocean.addColorStop(1,'#020810');
+    ctx.fillStyle=ocean;ctx.fillRect(0,H*.5,W,H*.5);
+    // Horizon glow
+    const hg=ctx.createLinearGradient(0,H*.48,0,H*.56);
+    hg.addColorStop(0,'rgba(29,111,164,.0)');hg.addColorStop(.5,'rgba(29,111,164,.08)');hg.addColorStop(1,'rgba(29,111,164,.0)');
+    ctx.fillStyle=hg;ctx.fillRect(0,H*.48,W,H*.08);
+    // Waves
+    for(let i=0;i<8;i++){
+      const wy=H*(.52+i*.06),amp=2+i*.8,sp=i%2===0?.55:.4;
+      ctx.beginPath();ctx.moveTo(0,wy);
+      for(let x=0;x<=W;x+=7)ctx.lineTo(x,wy+Math.sin(x*.018+t*sp+i*1.4)*amp+Math.sin(x*.03-t*.35+i)*.7*amp);
+      ctx.strokeStyle=`rgba(77,166,212,${.06+i*.025})`;ctx.lineWidth=1+i*.05;ctx.stroke();
+    }
+    // Moon reflection shimmer
+    for(let r=0;r<6;r++){
+      const rw=60-r*8,rx2=W*.8-rw/2+Math.sin(t*.4+r)*12;
+      ctx.fillStyle=`rgba(220,210,180,${.06-r*.008})`;
+      ctx.fillRect(rx2,H*(.52+r*.035),rw+Math.sin(t*.5+r)*20,4+r);
+    }
+    // Main sailboat
+    const bx=W*.38,by=H*.49,bob=Math.sin(t*.75)*3.5,roll=Math.sin(t*.6)*.012;
+    ctx.save();ctx.translate(bx,by+bob);ctx.rotate(roll);
+    ctx.strokeStyle='rgba(200,200,195,.9)';ctx.lineWidth=2.5;
+    ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-H*.42);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.95)';
+    ctx.beginPath();ctx.moveTo(0,-H*.42);ctx.quadraticCurveTo(W*.07+Math.sin(t*.45)*6,H*-.2,W*.075,0);ctx.lineTo(0,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(215,235,255,.88)';
+    ctx.beginPath();ctx.moveTo(0,-H*.32);ctx.lineTo(-W*.07,4);ctx.lineTo(0,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#b8832a';ctx.beginPath();ctx.ellipse(W*.04,8,W*.09,10,0,0,Math.PI);ctx.fill();
+    ctx.fillStyle='#061a30';ctx.beginPath();ctx.ellipse(W*.04,5,W*.088,7.5,0,0,Math.PI);ctx.fill();
+    ctx.restore();
+    // Second sailboat (distant right)
+    const bx2=W*.72,by2=H*.5,bob2=Math.sin(t*.6+1)*2;
+    ctx.save();ctx.translate(bx2,by2+bob2);
+    ctx.strokeStyle='rgba(180,180,175,.6)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(0,-H*.22);ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.65)';ctx.beginPath();ctx.moveTo(0,-H*.22);ctx.quadraticCurveTo(W*.04,H*-.1,W*.042,0);ctx.lineTo(0,0);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(200,140,50,.7)';ctx.beginPath();ctx.ellipse(W*.02,5,W*.05,6,0,0,Math.PI);ctx.fill();
+    ctx.restore();
+    // Distant coast Menorca
+    ctx.fillStyle='rgba(20,50,30,.4)';
+    ctx.beginPath();ctx.moveTo(W*.55,H*.48);ctx.bezierCurveTo(W*.6,H*.42,W*.65,H*.44,W*.7,H*.4);ctx.bezierCurveTo(W*.76,H*.37,W*.82,H*.43,W*.88,H*.4);ctx.lineTo(W*.95,H*.38);ctx.lineTo(1,H*.38);ctx.lineTo(1,H*.5);ctx.lineTo(W*.55,H*.5);ctx.closePath();ctx.fill();
+    ctx.fillStyle='rgba(15,40,25,.35)';
+    ctx.beginPath();ctx.moveTo(W*.55,H*.49);ctx.bezierCurveTo(W*.62,H*.445,W*.68,H*.46,W*.73,H*.43);ctx.bezierCurveTo(W*.78,H*.4,W*.83,H*.44,W*.88,H*.42);ctx.lineTo(1,H*.44);ctx.lineTo(1,H*.5);ctx.lineTo(W*.55,H*.5);ctx.closePath();ctx.fill();
+    t+=.022;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── CARD CANVASES ──
+function drawSailboat(id,skyC,seaC,accent){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),W=540,H=185;c.width=W;c.height=H;
+  const sg=ctx.createLinearGradient(0,0,0,H*.58);sg.addColorStop(0,skyC[0]);sg.addColorStop(1,skyC[1]);
+  ctx.fillStyle=sg;ctx.fillRect(0,0,W,H*.58);
+  const og=ctx.createLinearGradient(0,H*.55,0,H);og.addColorStop(0,seaC[0]);og.addColorStop(1,seaC[1]);
+  ctx.fillStyle=og;ctx.fillRect(0,H*.55,W,H*.45);
+  for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(0,H*(.6+i*.13));for(let x=0;x<=W;x+=7)ctx.lineTo(x,H*(.6+i*.13)+Math.sin(x*.024+i)*2.5);ctx.strokeStyle=`rgba(${accent},${.12+i*.06})`;ctx.lineWidth=1;ctx.stroke();}
+  const bx=210,by=H*.55;
+  ctx.strokeStyle='rgba(200,200,195,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx,by-H*.5);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.96)';ctx.beginPath();ctx.moveTo(bx,by-H*.5);ctx.quadraticCurveTo(bx+62,by-H*.24,bx+68,by);ctx.lineTo(bx,by);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(215,235,255,.85)';ctx.beginPath();ctx.moveTo(bx,by-H*.38);ctx.lineTo(bx-52,by+3);ctx.lineTo(bx,by);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#b8832a';ctx.beginPath();ctx.ellipse(bx+30,by+8,80,9,0,0,Math.PI);ctx.fill();
+  ctx.fillStyle='#061a30';ctx.beginPath();ctx.ellipse(bx+30,by+5,77,7,0,0,Math.PI);ctx.fill();
+}
+function drawMotorboat(id,skyC,seaC){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),W=540,H=185;c.width=W;c.height=H;
+  const sg=ctx.createLinearGradient(0,0,0,H*.52);sg.addColorStop(0,skyC[0]);sg.addColorStop(1,skyC[1]);
+  ctx.fillStyle=sg;ctx.fillRect(0,0,W,H*.52);
+  const og=ctx.createLinearGradient(0,H*.5,0,H);og.addColorStop(0,seaC[0]);og.addColorStop(1,seaC[1]);
+  ctx.fillStyle=og;ctx.fillRect(0,H*.5,W,H*.5);
+  for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(0,H*(.54+i*.12));for(let x=0;x<=W;x+=7)ctx.lineTo(x,H*(.54+i*.12)+Math.sin(x*.025+i*1.3)*2.5);ctx.strokeStyle=`rgba(100,200,240,${.1+i*.04})`;ctx.lineWidth=1;ctx.stroke();}
+  const bx=250,by=H*.51,l=145,w=15;
+  ctx.fillStyle='rgba(238,236,230,.97)';ctx.beginPath();ctx.moveTo(bx-l*.52,by);ctx.lineTo(bx-l*.32,by-w*3);ctx.lineTo(bx+l*.46,by-w*2.4);ctx.lineTo(bx+l*.52,by);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(228,226,220,.95)';ctx.beginPath();ctx.moveTo(bx-l*.28,by-w*3);ctx.lineTo(bx-l*.16,by-w*4.5);ctx.lineTo(bx+l*.36,by-w*4);ctx.lineTo(bx+l*.42,by-w*2.4);ctx.closePath();ctx.fill();
+  for(let wi=0;wi<5;wi++){ctx.fillStyle='rgba(80,170,220,.65)';ctx.fillRect(bx-l*.48+wi*50,by-w*2.1,32,15);}
+  ctx.fillStyle='rgba(10,37,64,.95)';ctx.beginPath();ctx.moveTo(bx-l*.52,by);ctx.bezierCurveTo(bx-l*.62,by+w,bx+l*.62,by+w,bx+l*.52,by);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(184,131,42,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(bx-l*.5,by+1);ctx.bezierCurveTo(bx,by-2,bx,by-2,bx+l*.5,by+1);ctx.stroke();
+  for(let w2=0;w2<5;w2++){ctx.strokeStyle=`rgba(200,230,255,${.22-w2*.038})`;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(bx+l*.52+w2*14,by+8);ctx.bezierCurveTo(bx+l*.52+w2*14+16,by+4,bx+l*.52+w2*14+30,by+12,bx+l*.52+w2*14+30,by+8);ctx.stroke();}
+}
+function drawCatamaran(id){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),W=540,H=185;c.width=W;c.height=H;
+  const sg=ctx.createLinearGradient(0,0,0,H*.6);sg.addColorStop(0,'#1a2e4a');sg.addColorStop(.5,'#7a3815');sg.addColorStop(1,'#c05828');
+  ctx.fillStyle=sg;ctx.fillRect(0,0,W,H*.6);
+  ctx.fillStyle='rgba(200,100,40,.18)';ctx.fillRect(0,H*.5,W,10);
+  const og=ctx.createLinearGradient(0,H*.52,0,H);og.addColorStop(0,'#1e4060');og.addColorStop(1,'#061220');
+  ctx.fillStyle=og;ctx.fillRect(0,H*.52,W,H*.48);
+  for(let i=0;i<3;i++){ctx.beginPath();ctx.moveTo(0,H*(.56+i*.14));for(let x=0;x<=W;x+=7)ctx.lineTo(x,H*(.56+i*.14)+Math.sin(x*.022+i)*3);ctx.strokeStyle=`rgba(200,100,30,.1)`;ctx.lineWidth=1;ctx.stroke();}
+  const bx=240,by=H*.5,hw=56;
+  ctx.strokeStyle='rgba(200,200,195,.9)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx,by-H*.44);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.95)';ctx.beginPath();ctx.moveTo(bx,by-H*.44);ctx.quadraticCurveTo(bx+hw,by-H*.2,bx+hw*1.15,by);ctx.lineTo(bx,by);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(215,235,255,.85)';ctx.beginPath();ctx.moveTo(bx,by-H*.32);ctx.lineTo(bx-hw,by+2);ctx.lineTo(bx,by);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(235,234,226,.95)';ctx.fillRect(bx-hw*1.1,by,hw*2.2,13);
+  ctx.fillStyle='#b8832a';ctx.beginPath();ctx.ellipse(bx-hw*.72,by+19,hw*.82,8,0,0,Math.PI);ctx.fill();
+  ctx.fillStyle='#b8832a';ctx.beginPath();ctx.ellipse(bx+hw*.72,by+19,hw*.82,8,0,0,Math.PI);ctx.fill();
+  ctx.fillStyle='#061a30';ctx.beginPath();ctx.ellipse(bx-hw*.72,by+16,hw*.79,6,0,0,Math.PI);ctx.fill();
+  ctx.fillStyle='#061a30';ctx.beginPath();ctx.ellipse(bx+hw*.72,by+16,hw*.79,6,0,0,Math.PI);ctx.fill();
+}
+function drawRIB(id){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d'),W=540,H=185;c.width=W;c.height=H;
+  const sg=ctx.createLinearGradient(0,0,0,H*.52);sg.addColorStop(0,'#70c0e0');sg.addColorStop(1,'#a8d8f0');
+  ctx.fillStyle=sg;ctx.fillRect(0,0,W,H*.52);
+  const og=ctx.createLinearGradient(0,H*.5,0,H);og.addColorStop(0,'#18a0c0');og.addColorStop(1,'#044868');
+  ctx.fillStyle=og;ctx.fillRect(0,H*.5,W,H*.5);
+  for(let i=0;i<4;i++){ctx.beginPath();ctx.moveTo(0,H*(.54+i*.12));for(let x=0;x<=W;x+=7)ctx.lineTo(x,H*(.54+i*.12)+Math.sin(x*.028+i*1.6)*2.5);ctx.strokeStyle=`rgba(255,255,255,${.16+i*.05})`;ctx.lineWidth=1;ctx.stroke();}
+  const bx=230,by=H*.53,l=100;
+  ctx.fillStyle='rgba(200,25,25,.9)';ctx.beginPath();ctx.ellipse(bx,by,l,15,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(240,240,235,.97)';ctx.beginPath();ctx.ellipse(bx,by,l*.82,9,0,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(60,60,65,.9)';ctx.fillRect(bx-22,by-20,48,15);
+  ctx.fillStyle='rgba(100,185,220,.6)';ctx.beginPath();ctx.moveTo(bx-24,by-20);ctx.lineTo(bx-18,by-30);ctx.lineTo(bx+24,by-28);ctx.lineTo(bx+24,by-20);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(40,40,45,.9)';ctx.fillRect(bx+l*.68,by-6,20,26);
+  for(let w2=0;w2<5;w2++){ctx.strokeStyle=`rgba(255,255,255,${.25-w2*.04})`;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(bx+l+w2*13,by+5);ctx.bezierCurveTo(bx+l+w2*13+14,by+1,bx+l+w2*13+26,by+9,bx+l+w2*13+26,by+5);ctx.stroke();}
+}
+
+// Canvases reemplazados con imágenes reales
+/*
+drawSailboat('c1',['#0f3050','#2a7fb5'],['#1a4a7a','#061220'],'90,180,224');
+drawMotorboat('c2',['#b8d8f0','#5ab4e0'],['#2a8fc2','#0f3a60']);
+drawCatamaran('c3');
+drawMotorboat('c4',['#1a4a80','#4090c0'],['#2a6090','#0a1e35']);
+drawSailboat('c5',['#1e3048','#6090b0'],['#1a4060','#061a2a'],'90,180,224');
+drawRIB('c6');
+drawMotorboat('c7',['#a8d8f0','#70c0e0'],['#2a8fc2','#1a4a7a']);
+drawMotorboat('c8',['#1a4a80','#4090c0'],['#2a6090','#0a1e35']);
+drawMotorboat('c9',['#b8d8f0','#5ab4e0'],['#2a8fc2','#0f3a60']);
+*/
+
+// Charter canvases
+function drawChCard(id,type){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d');c.width=400;c.height=150;
+  if(type==='sail'){drawSailboat(id,['#0f3050','#2a7fb5'],['#1a4a7a','#061220'],'90,180,224');drawSailboat(id,['#0f3050','#2a7fb5'],['#1a4a7a','#061220'],'90,180,224');}
+  if(type==='cat'){drawCatamaran(id);}
+  if(type==='motor'){drawMotorboat(id,['#1a4a80','#4090c0'],['#2a6090','#0a1e35']);}
+  if(type==='rib'){drawRIB(id);}
+}
+// Re-draw charter with correct size - Canvases reemplazados con imágenes
+/*
+['ch1','ch2','ch3','ch4','ch5','ch6','ch7'].forEach((id,i)=>{
+  const c=document.getElementById(id);if(!c)return;
+  c.width=400;c.height=150;
+  const types=['sail','cat','motor','rib','sail','motor','rib'];
+  if(i===0)drawSailboat(id,['#0f3050','#2a7fb5'],['#1a4a7a','#061220'],'90,180,224');
+  else if(i===1)drawCatamaran(id);
+  else if(i===2)drawMotorboat(id,['#1a4a80','#4090c0'],['#2a6090','#0a1e35']);
+  else if(i===3)drawRIB(id);
+  else if(i===4)drawSailboat(id,['#1e3048','#6090b0'],['#1a4060','#061a2a'],'90,180,224');
+  else if(i===5)drawMotorboat(id,['#b8d8f0','#5ab4e0'],['#2a8fc2','#0f3a60']);
+  else if(i===6)drawRIB(id);
+});
+*/
+
+// Featured canvas — reemplazado con imagen real
+/*
+(function(){
+  const c=document.getElementById('featCanvas');if(!c)return;
+  const ctx=c.getContext('2d'),W=800,H=600;
+  const sg=ctx.createLinearGradient(0,0,0,H*.55);
+  sg.addColorStop(0,'#1a2e4a');sg.addColorStop(.4,'#2e5a7a');sg.addColorStop(.7,'#b86020');sg.addColorStop(1,'#d88040');
+  ctx.fillStyle=sg;ctx.fillRect(0,0,W,H*.55);
+  // Sun
+  const sunG=ctx.createRadialGradient(W*.72,H*.22,0,W*.72,H*.22,90);
+  sunG.addColorStop(0,'rgba(255,220,80,.9)');sunG.addColorStop(.4,'rgba(255,160,30,.4)');sunG.addColorStop(1,'rgba(255,120,0,0)');
+  ctx.fillStyle=sunG;ctx.fillRect(0,0,W,H);
+  // Sea
+  const og=ctx.createLinearGradient(0,H*.5,0,H);og.addColorStop(0,'#1a4060');og.addColorStop(.4,'#0d2535');og.addColorStop(1,'#061220');
+  ctx.fillStyle=og;ctx.fillRect(0,H*.5,W,H*.5);
+  // Sun path
+  const sp=ctx.createLinearGradient(W*.5,H*.5,W*.8,H);sp.addColorStop(0,'rgba(255,180,60,.3)');sp.addColorStop(1,'rgba(255,180,60,0)');
+  ctx.fillStyle=sp;ctx.beginPath();ctx.moveTo(W*.62,H*.5);ctx.lineTo(W*.82,H*.5);ctx.lineTo(W,H);ctx.lineTo(W*.45,H);ctx.closePath();ctx.fill();
+  for(let i=0;i<9;i++){
+    const wy=H*(.52+i*.055);ctx.beginPath();ctx.moveTo(0,wy);
+    for(let x=0;x<=W;x+=8)ctx.lineTo(x,wy+Math.sin(x*.018+i)*3.5+Math.sin(x*.03-i*.6)*1.5);
+    ctx.strokeStyle=`rgba(255,${130+i*9},50,${.06-i*.004})`;ctx.lineWidth=1;ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,wy+3);
+    for(let x=0;x<=W;x+=8)ctx.lineTo(x,wy+3+Math.sin(x*.024-i*.4)*2);
+    ctx.strokeStyle=`rgba(77,166,212,${.06+i*.022})`;ctx.lineWidth=.8;ctx.stroke();
+  }
+  // Luxury yacht
+  const bx=310,by=H*.52,l=185,w=18;
+  ctx.fillStyle='rgba(240,238,232,.98)';ctx.beginPath();ctx.moveTo(bx-l*.52,by);ctx.lineTo(bx-l*.35,by-w*2.8);ctx.lineTo(bx+l*.46,by-w*2.2);ctx.lineTo(bx+l*.52,by);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(230,228,222,.96)';ctx.beginPath();ctx.moveTo(bx-l*.3,by-w*2.8);ctx.lineTo(bx-l*.18,by-w*4.5);ctx.lineTo(bx+l*.37,by-w*4.1);ctx.lineTo(bx+l*.42,by-w*2.2);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(40,72,104,.92)';ctx.fillRect(bx-l*.12,by-w*4.8,l*.46,10);
+  ctx.fillStyle='rgba(200,198,190,.9)';ctx.fillRect(bx-l*.11,by-w*4.75,l*.44,8);
+  ctx.strokeStyle='rgba(180,170,140,.85)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(bx+l*.08,by-w*4.65);ctx.lineTo(bx+l*.08,by-w*6.2);ctx.stroke();
+  ctx.strokeStyle='rgba(150,145,130,.6)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(bx+l*.03,by-w*5.8);ctx.lineTo(bx+l*.13,by-w*5.8);ctx.stroke();
+  for(let wi=0;wi<6;wi++){ctx.fillStyle='rgba(80,170,220,.65)';ctx.fillRect(bx-l*.48+wi*58,by-w*2.1,38,18);ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=.5;ctx.strokeRect(bx-l*.48+wi*58,by-w*2.1,38,18);}
+  for(let wi=0;wi<3;wi++){ctx.fillStyle='rgba(70,155,205,.55)';ctx.fillRect(bx-l*.25+wi*60,by-w*3.7,42,14);}
+  const hullG=ctx.createLinearGradient(0,by,0,by+w*1.4);hullG.addColorStop(0,'#1a3a5c');hullG.addColorStop(1,'#0a1e30');
+  ctx.fillStyle=hullG;ctx.beginPath();ctx.moveTo(bx-l*.52,by);ctx.bezierCurveTo(bx-l*.62,by+w,bx+l*.62,by+w,bx+l*.52,by);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(184,131,42,.9)';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(bx-l*.5,by+1);ctx.bezierCurveTo(bx,by-3,bx,by-3,bx+l*.5,by+1);ctx.stroke();
+  for(let w2=0;w2<7;w2++){ctx.strokeStyle=`rgba(200,230,255,${.22-w2*.028})`;ctx.lineWidth=1.5-w2*.18;ctx.beginPath();ctx.moveTo(bx+l*.52+w2*18,by+10);ctx.bezierCurveTo(bx+l*.52+w2*18+20,by+5,bx+l*.52+w2*18+38,by+15,bx+l*.52+w2*18+38,by+10);ctx.stroke();}
+  // Distant Menorca cliffs
+  ctx.fillStyle='rgba(40,80,50,.35)';ctx.beginPath();ctx.moveTo(0,H*.46);ctx.bezierCurveTo(50,H*.38,100,H*.42,150,H*.36);ctx.bezierCurveTo(200,H*.3,250,H*.38,300,H*.34);ctx.lineTo(300,H*.5);ctx.lineTo(0,H*.5);ctx.closePath();ctx.fill();
+  ctx.fillStyle='rgba(30,60,40,.3)';ctx.beginPath();ctx.moveTo(0,H*.48);ctx.bezierCurveTo(60,H*.42,120,H*.46,180,H*.4);ctx.bezierCurveTo(240,H*.35,290,H*.44,300,H*.42);ctx.lineTo(300,H*.5);ctx.lineTo(0,H*.5);ctx.closePath();ctx.fill();
+})();
+</*
+*/
+// ── BOAT MODAL SCRIPT ──
+;(function(){
+  const boatModal=document.getElementById('boatModal');
+  const boatModalClose=document.getElementById('boatModalClose');
+  const boatModalBtnClose=document.getElementById('boatModalBtnClose');
+  const boatImgMain=document.getElementById('boatImgMain');
+  const boatThumb1=document.getElementById('boatThumb1');
+  const boatThumb2=document.getElementById('boatThumb2');
+  const boatTitle=document.getElementById('boatTitle');
+  const boatPrice=document.getElementById('boatPrice');
+  const boatEslora=document.getElementById('boatEslora');
+  const boatYear=document.getElementById('boatYear');
+  const boatMotor=document.getElementById('boatMotor');
+  const boatCabins=document.getElementById('boatCabins');
+  const boatBerths=document.getElementById('boatBerths');
+  const boatLocation=document.getElementById('boatLocation');
+  const boatDesc=document.getElementById('boatDesc');
+  const boatContactBtn=document.getElementById('boatContactBtn');
+  const boatPageMain=document.getElementById('anuncios');
+  const boatDetailSection=document.getElementById('boatDetail');
+  const boatDetailBack=document.getElementById('boatDetailBack');
+  const boatDetailImg=document.getElementById('boatDetailImg');
+  const boatDetailTitle=document.getElementById('boatDetailTitle');
+  const boatDetailPrice=document.getElementById('boatDetailPrice');
+  const boatDetailEslora=document.getElementById('boatDetailEslora');
+  const boatDetailYear=document.getElementById('boatDetailYear');
+  const boatDetailMotor=document.getElementById('boatDetailMotor');
+  const boatDetailCabins=document.getElementById('boatDetailCabins');
+  const boatDetailBerths=document.getElementById('boatDetailBerths');
+  const boatDetailLocation=document.getElementById('boatDetailLocation');
+  const boatDetailDesc=document.getElementById('boatDetailDesc');
+  const boatDetailContact=document.getElementById('boatDetailContact');
+  const boatDetailClose=document.getElementById('boatDetailClose');
+  const boatsForSaleCount=document.getElementById('boatsForSaleCount');
+  const boatsGrid=document.getElementById('boatsGrid');
+  const boatsNoResults=document.getElementById('boatsNoResults');
+  const filterType=document.getElementById('filterType');
+  const searchType=document.getElementById('searchType');
+  const searchStatus=document.getElementById('searchStatus');
+  const searchBrand=document.getElementById('searchBrand');
+  const searchLength=document.getElementById('searchLength');
+  const searchPriceMax=document.getElementById('searchPriceMax');
+  const searchLocation=document.getElementById('searchLocation');
+  const searchButton=document.getElementById('searchButton');
+  const priceRangeEl=document.getElementById('priceRange');
+  const yearRangeEl=document.getElementById('yearRange');
+  const lengthRangeEl=document.getElementById('lengthRange');
+  const priceMinInput=document.getElementById('priceMin');
+  const priceMaxInput=document.getElementById('priceMax');
+  const lengthMinInput=document.getElementById('lengthMin');
+  const lengthMaxInput=document.getElementById('lengthMax');
+  const yearMinInput=document.getElementById('yearMin');
+  const yearMaxInput=document.getElementById('yearMax');
+  const clearFiltersBtn=document.querySelector('.btn-adv-clear');
+  const listCountStrong=document.querySelector('.list-count strong');
+
+  function getCheckboxValues(group){
+    return Array.from(document.querySelectorAll(`input[data-filter-group="${group}"]:checked`)).map(ch => ch.value.toLowerCase());
+  }
+
+  function parseRange(value, fallbackMin, fallbackMax){
+    if(!value || value === 'todos') return [fallbackMin, fallbackMax];
+    const [min, max] = value.split('-').map(Number);
+    return [isNaN(min) ? fallbackMin : min, isNaN(max) ? fallbackMax : max];
+  }
+
+  function updateBoatsForSaleCount(visibleCount){
+    if(listCountStrong && visibleCount != null){
+      listCountStrong.textContent = visibleCount + ' barcos';
+    }
+    if(!boatsForSaleCount) return;
+    if(visibleCount != null) {
+      boatsForSaleCount.textContent = visibleCount;
+    } else if(boatsGrid) {
+      boatsForSaleCount.textContent = Array.from(boatsGrid.querySelectorAll('.card')).filter(c => c.style.display !== 'none').length;
+    }
+  }
+
+  function updateFilterCounts(){
+    if(!boatsGrid) return;
+    const cards = Array.from(boatsGrid.querySelectorAll('.card')).filter(c => c.style.display !== 'none');
+    const counts = {};
+
+    cards.forEach(card => {
+      const type = (card.dataset.type || '').toLowerCase();
+      const status = (card.dataset.status || '').toLowerCase();
+      const motor = (card.dataset.engine || '').toLowerCase();
+      const brand = (card.dataset.brand || '').toLowerCase();
+      const location = (card.dataset.location || '').toLowerCase();
+      const year = Number(card.dataset.year) || 0;
+      const length = parseFloat(card.dataset.length) || 0;
+      const price = Number(card.dataset.price) || 0;
+
+      if(type) counts[`type:${type}`] = (counts[`type:${type}`] || 0) + 1;
+      if(status) counts[`estado:${status}`] = (counts[`estado:${status}`] || 0) + 1;
+      if(motor) counts[`motor:${motor}`] = (counts[`motor:${motor}`] || 0) + 1;
+      if(brand) counts[`brand:${brand}`] = (counts[`brand:${brand}`] || 0) + 1;
+      if(location) counts[`location:${location}`] = (counts[`location:${location}`] || 0) + 1;
+
+      if(price <= 25000) counts['price:0-25000'] = (counts['price:0-25000'] || 0) + 1;
+      else if(price <= 75000) counts['price:25000-75000'] = (counts['price:25000-75000'] || 0) + 1;
+      else if(price <= 200000) counts['price:75000-200000'] = (counts['price:75000-200000'] || 0) + 1;
+      else counts['price:200000-9999999'] = (counts['price:200000-9999999'] || 0) + 1;
+
+      if(length < 6) counts['length:0-6'] = (counts['length:0-6'] || 0) + 1;
+      else if(length < 10) counts['length:6-10'] = (counts['length:6-10'] || 0) + 1;
+      else if(length < 15) counts['length:10-15'] = (counts['length:10-15'] || 0) + 1;
+      else counts['length:15-999'] = (counts['length:15-999'] || 0) + 1;
+
+      if(year >= 2020) counts['year:2020-9999'] = (counts['year:2020-9999'] || 0) + 1;
+      else if(year >= 2015) counts['year:2015-2019'] = (counts['year:2015-2019'] || 0) + 1;
+      else counts['year:0-2014'] = (counts['year:0-2014'] || 0) + 1;
+    });
+
+    document.querySelectorAll('input[data-filter-group]').forEach(ch => {
+      const key = `${ch.dataset.filterGroup}:${ch.value.toLowerCase()}`;
+      const count = counts[key] || 0;
+      const labelCount = ch.closest('.cb')?.querySelector('.cb-ct');
+      if(labelCount) labelCount.textContent = count;
+    });
+
+    document.querySelectorAll('.cat-chip').forEach(chip => {
+      const text = chip.textContent.trim();
+      let typeKey = null;
+      if(text.startsWith('Todo')) typeKey = 'total';
+      else if(text.includes('Veleros')) typeKey = 'type:velero';
+      else if(text.includes('Barcos a motor')) typeKey = 'type:barco-a-motor';
+      else if(text.includes('Yates motor')) typeKey = 'type:yate-a-motor';
+      else if(text.includes('Catamaranes')) typeKey = 'type:catamaran';
+      else if(text.includes('Semirígidas')) typeKey = 'type:semirigida-rib';
+      else if(text.includes('Pesca')) typeKey = 'type:pesca';
+      else if(text.includes('Motos de agua')) typeKey = 'type:moto-de-agua';
+      const span = chip.querySelector('.cat-chip-count');
+      if(span) span.textContent = typeKey === 'total' ? cards.length : counts[typeKey] || 0;
+    });
+  }
+
+  function filterBoatCards(){
+    if(!boatsGrid) return;
+    const [priceMin, priceMax] = priceRangeEl?.value ? priceRangeEl.value.split('-').map(Number) : [0, Infinity];
+    const [yearMin, yearMax] = yearRangeEl?.value ? yearRangeEl.value.split('-').map(Number) : [0, Infinity];
+    const [lengthMin, lengthMax] = lengthRangeEl?.value ? lengthRangeEl.value.split('-').map(Number) : [0, Infinity];
+    const [searchLengthMin, searchLengthMax] = parseRange(searchLength?.value, 0, Infinity);
+    const selectedType = filterType?.value || 'todos';
+    const selectedSearchType = searchType?.value || 'todos';
+    const selectedStatusDrop = (searchStatus?.value || 'todos').toLowerCase();
+    const searchBrandText = (searchBrand?.value || '').toLowerCase().trim();
+
+    const selectedStatus = getCheckboxValues('estado');
+    const selectedMotor = getCheckboxValues('motor');
+    const selectedBrand = getCheckboxValues('brand');
+    const selectedPort = getCheckboxValues('location');
+    const selectedPriceRanges = getCheckboxValues('price');
+    const selectedLengthRanges = getCheckboxValues('length');
+    const selectedYearRanges = getCheckboxValues('year');
+    const selectedLocation = (searchLocation?.value || 'todos').toLowerCase();
+
+    const cards = Array.from(boatsGrid.querySelectorAll('.card'));
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const price = Number(card.dataset.price) || 0;
+      const year = Number(card.dataset.year) || 0;
+      const length = parseFloat(card.dataset.length) || 0;
+      const type = (card.dataset.type || '').toLowerCase();
+      const status = (card.dataset.status || '').toLowerCase();
+      const motor = (card.dataset.engine || '').toLowerCase();
+      const brand = (card.dataset.brand || '').toLowerCase();
+      const location = (card.dataset.location || '').toLowerCase();
+
+      const matchesPrice = price >= priceMin && price <= priceMax;
+      const matchesPriceRanges = !selectedPriceRanges.length || selectedPriceRanges.some(range => {
+        const [min, max] = range.split('-').map(Number);
+        return price >= min && price <= max;
+      });
+      const matchesLength = length >= Math.max(lengthMin, searchLengthMin) && length <= Math.min(isFinite(lengthMax)?lengthMax:Infinity, searchLengthMax);
+      const matchesLengthRanges = !selectedLengthRanges.length || selectedLengthRanges.some(range => {
+        const [min, max] = range.split('-').map(Number);
+        return length >= min && length <= max;
+      });
+      const matchesYear = year >= yearMin && year <= yearMax;
+      const matchesYearRanges = !selectedYearRanges.length || selectedYearRanges.some(range => {
+        const [min, max] = range.split('-').map(Number);
+        return year >= min && year <= max;
+      });
+      const matchesType = selectedType === 'todos' || type === selectedType;
+      const matchesSearchType = selectedSearchType === 'todos' || type === selectedSearchType;
+      const matchesStatus = (selectedStatusDrop==='todos'||status===selectedStatusDrop) && (!selectedStatus.length||selectedStatus.includes(status));
+      const matchesMotor = !selectedMotor.length || selectedMotor.includes(motor);
+      const matchesBrand = (!selectedBrand.length||selectedBrand.includes(brand)) && (!searchBrandText||brand===searchBrandText);
+      const matchesPort = !selectedPort.length || selectedPort.some(port => location.includes(port));
+      const matchesLocation = selectedLocation === 'todos' || selectedLocation === '' || location.includes(selectedLocation);
+
+      const visible = matchesPrice && matchesPriceRanges && matchesLength && matchesLengthRanges && matchesYear && matchesYearRanges && matchesType && matchesSearchType && matchesStatus && matchesMotor && matchesBrand && matchesPort && matchesLocation;
+      card.style.display = visible ? '' : 'none';
+      if(visible) visibleCount++;
+    });
+
+    if(boatsNoResults) boatsNoResults.style.display = visibleCount ? 'none' : 'grid';
+    updateBoatsForSaleCount(visibleCount);
+    updateFilterCounts();
+  }
+
+  window.filterBoatCards = filterBoatCards;
+
+  function resetFilters(){
+    if(filterType) filterType.value = 'todos';
+    if(searchType) searchType.value = 'todos';
+    if(searchStatus) searchStatus.value = 'todos';
+    if(searchBrand) searchBrand.value = '';
+    if(searchLength) searchLength.value = '0-999';
+    if(searchPriceMax) searchPriceMax.value = '99999999';
+    if(searchLocation) searchLocation.value = 'todos';
+    if(priceRangeEl) priceRangeEl.value = '';
+    if(yearRangeEl) yearRangeEl.value = '';
+    if(lengthRangeEl) lengthRangeEl.value = '';
+    document.querySelectorAll('.ftab').forEach((t,i)=>t.classList.toggle('active',i===0));
+    if(priceMinInput) priceMinInput.value = '';
+    if(priceMaxInput) priceMaxInput.value = '';
+    if(lengthMinInput) lengthMinInput.value = '';
+    if(lengthMaxInput) lengthMaxInput.value = '';
+    if(yearMinInput) yearMinInput.value = '';
+    if(yearMaxInput) yearMaxInput.value = '';
+    document.querySelectorAll('input[data-filter-group]').forEach(ch => ch.checked = false);
+    filterBoatCards();
+  }
+
+  if(clearFiltersBtn) clearFiltersBtn.addEventListener('click', function(e){ e.preventDefault(); resetFilters(); });
+
+  [filterType, searchType, searchStatus, searchBrand, priceRangeEl, yearRangeEl, lengthRangeEl, searchLength, searchPriceMax, searchLocation, priceMinInput, priceMaxInput, lengthMinInput, lengthMaxInput, yearMinInput, yearMaxInput].forEach(el => {
+    if(el) el.addEventListener('input', filterBoatCards);
+  });
+
+  if(searchButton) searchButton.addEventListener('click', function(e){ e.preventDefault(); filterBoatCards(); });
+
+  document.querySelectorAll('input[data-filter-group]').forEach(ch => ch.addEventListener('change', filterBoatCards));
+
+  filterBoatCards();
+
+  function makeAccSection(title, bodyHtml, open){
+    const id = 'acc_'+Math.random().toString(36).slice(2);
+    return `<div class="dacc-section">
+      <button class="dacc-toggle${open?' open':''}" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('open')">
+        ${title}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+      </button>
+      <div class="dacc-body${open?' open':''}">${bodyHtml}</div>
+    </div>`;
+  }
+
+  function renderCheckFeatures(features){
+    const entries = Object.entries(features);
+    const half = Math.ceil(entries.length/2);
+    const col = (arr) => arr.map(([cat,items])=>`
+      <div>
+        <div class="dacc-group-title">${cat}</div>
+        ${items.map(i=>`<div class="dacc-row"><span class="dacc-row-label">${i}</span><span class="dacc-check">✓</span></div>`).join('')}
+      </div>`).join('');
+    return `<div class="dacc-cols">${col(entries.slice(0,half))}${col(entries.slice(half))}</div>`;
+  }
+
+  function renderPropulsion(prop){
+    const motors = Object.entries(prop);
+    const col = ([name, data]) => `<div>
+      <div class="dacc-group-title">${name}</div>
+      ${Object.entries(data).map(([k,v])=>`<div class="dacc-row"><span class="dacc-row-label">${k}</span><span class="dacc-row-val">${v}</span></div>`).join('')}
+    </div>`;
+    return `<div class="dacc-cols">${motors.map(col).join('')}</div>`;
+  }
+
+  function renderMedidas(med){
+    const entries = Object.entries(med);
+    const half = Math.ceil(entries.length/2);
+    const col = (arr) => arr.map(([cat,data])=>`
+      <div>
+        <div class="dacc-group-title">${cat}</div>
+        ${Object.entries(data).map(([k,v])=>`<div class="dacc-row"><span class="dacc-row-label">${k}</span><span class="dacc-row-val">${v||'—'}</span></div>`).join('')}
+      </div>`).join('');
+    return `<div class="dacc-cols">${col(entries.slice(0,half))}${col(entries.slice(half))}</div>`;
+  }
+
+  function showBoatDetail(specs){
+    try{
+      const s = typeof specs === 'string' ? JSON.parse(specs) : specs;
+      if(boatDetailTitle) boatDetailTitle.textContent = s.title || '';
+      if(boatDetailPrice) boatDetailPrice.textContent = s.price || 'Consultar';
+      const setEl = (id, val) => { const el=document.getElementById(id); if(el) el.textContent = val||'—'; };
+      setEl('boatDetailMotor',   s.motor);
+      setEl('boatDetailPotencia',s.potencia);
+      setEl('boatDetailHoras',   s.horas);
+      setEl('boatDetailClase',   s.clase);
+      setEl('boatDetailEslora',  s.eslora);
+      setEl('boatDetailYear',    s.year);
+      setEl('boatDetailModelo',  s.modelo);
+      setEl('boatDetailCabins',  s.capacidad);
+      if(boatDetailLocation) boatDetailLocation.textContent = s.location || '-';
+      if(boatDetailDesc) boatDetailDesc.textContent = s.description || '';
+      // Galería
+      const imgs = s.images || [];
+      let currentImg = 0;
+      const mainImg = document.getElementById('boatDetailImg');
+      const thumbsWrap = document.getElementById('boatGalleryThumbs');
+      window._galleryImgs = imgs;
+      window._currentImg = 0;
+      window.setGalleryImg = function(i){
+        window._currentImg = (i + imgs.length) % imgs.length;
+        if(mainImg){ mainImg.style.opacity='.5'; setTimeout(()=>{ mainImg.src=imgs[window._currentImg]; mainImg.style.opacity='1'; },150); }
+        document.querySelectorAll('.boat-thumb').forEach((t,idx)=>t.classList.toggle('active',idx===window._currentImg));
+      };
+      window.galleryNav = function(dir){ window.setGalleryImg(window._currentImg + dir); };
+      if(mainImg) mainImg.src = imgs[0] || '';
+      if(thumbsWrap){
+        thumbsWrap.innerHTML = imgs.map((src,i)=>
+          `<img class="boat-thumb${i===0?' active':''}" src="${src}" onclick="setGalleryImg(${i})">`
+        ).join('');
+      }
+      if(boatDetailContact) boatDetailContact.href = 'https://wa.me/34623972024?text=' + encodeURIComponent('Hola, me interesa la ' + (s.title || 'embarcación'));
+      // Accordion
+      const acc = document.getElementById('boatDetailAccordion');
+      if(acc){
+        let html = '';
+        if(s.descriptionLong)
+          html += makeAccSection('Descripción', `<div class="dacc-desc">${s.descriptionLong}</div>`, true);
+        if(s.features && Object.keys(s.features).length)
+          html += makeAccSection('Características', renderCheckFeatures(s.features), false);
+        if(s.propulsion && Object.keys(s.propulsion).length)
+          html += makeAccSection('Propulsión', renderPropulsion(s.propulsion), false);
+        if(s.medidas && Object.keys(s.medidas).length)
+          html += makeAccSection('Medidas', renderMedidas(s.medidas), false);
+        acc.innerHTML = html;
+      }
+      if(boatPageMain) boatPageMain.style.display = 'none';
+      const searchPanelEl = document.querySelector('.search-panel');
+      if(searchPanelEl) searchPanelEl.style.display = 'none';
+      const heroEl = document.querySelector('.hero');
+      if(heroEl) heroEl.style.display = 'none';
+      document.getElementById('mainNav')?.classList.add('scrolled');
+      if(boatDetailSection){
+        boatDetailSection.style.display = 'block';
+        boatDetailSection.scrollIntoView({behavior:'smooth'});
+      }
+      if(window.history && window.history.pushState) window.history.pushState({detail:true}, '', '#detalle');
+    }catch(e){console.error('Error mostrando ficha', e)}
+  }
+
+  function openBoatModal(specs){
+    try{
+      const s = typeof specs === 'string' ? JSON.parse(specs) : specs;
+      boatTitle.textContent = s.title || 'Embarcación';
+      boatPrice.textContent = s.price || 'Consultar';
+      boatEslora.textContent = s.eslora || '-';
+      boatYear.textContent = s.year || '-';
+      boatMotor.textContent = s.motor || '-';
+      boatCabins.textContent = s.cabins || '-';
+      boatBerths.textContent = s.berths || '-';
+      boatLocation.textContent = s.location || '-';
+      boatDesc.textContent = s.description || '';
+      const imgs = s.images || [];
+      boatImgMain.src = imgs[0] || 'images/starfisher32-1.jpg';
+      if(boatThumb1) boatThumb1.src = imgs[0] || 'images/starfisher32-1.jpg';
+      if(boatThumb2) boatThumb2.src = imgs[1] || imgs[0] || 'images/starfisher32-2.jpg';
+      if(boatContactBtn) boatContactBtn.href = 'https://wa.me/34623972024?text=' + encodeURIComponent('Hola, me interesa la ' + (s.title || 'embarcación'));
+      boatModal.classList.add('open');
+      boatModal.setAttribute('aria-hidden','false');
+    }catch(e){console.error('Error abriendo modal',e)}
+  }
+
+  function closeBoatModal(){
+    boatModal.classList.remove('open');
+    boatModal.setAttribute('aria-hidden','true');
+  }
+
+  function hideBoatDetail(){
+    if(boatDetailSection) boatDetailSection.style.display='none';
+    if(boatPageMain) boatPageMain.style.display = 'block';
+    const searchPanelEl = document.querySelector('.search-panel');
+    if(searchPanelEl) searchPanelEl.style.display = '';
+    const heroEl = document.querySelector('.hero');
+    if(heroEl) heroEl.style.display = '';
+    if(window.scrollY <= 60) document.getElementById('mainNav')?.classList.remove('scrolled');
+    if(window.history && window.history.pushState) window.history.pushState({}, '', window.location.pathname);
+  }
+
+  boatModalClose && boatModalClose.addEventListener('click', closeBoatModal);
+  boatModalBtnClose && boatModalBtnClose.addEventListener('click', closeBoatModal);
+  boatThumb1 && boatThumb1.addEventListener('click', ()=>{boatImgMain.src = boatThumb1.src});
+  boatThumb2 && boatThumb2.addEventListener('click', ()=>{boatImgMain.src = boatThumb2.src});
+  boatDetailClose && boatDetailClose.addEventListener('click', hideBoatDetail);
+  boatDetailBack && boatDetailBack.addEventListener('click', (e)=>{ e.preventDefault(); hideBoatDetail(); });
+  window.addEventListener('popstate', function(){
+    if(boatDetailSection && boatDetailSection.style.display !== 'none') hideBoatDetail();
+  });
+
+  document.querySelectorAll('.starfisher-card, .llaut-card').forEach(c => {
+    c.style.cursor = 'pointer';
+    c.addEventListener('click', (e)=>{ e.preventDefault(); showBoatDetail(c.getAttribute('data-specs')); });
+  });
+})();
+
+</script>
+
+<div id="gt_el" style="display:none"></div>
+<script>function googleTranslateElementInit(){new google.translate.TranslateElement({pageLanguage:'es',includedLanguages:'en,fr,it,nl,de',autoDisplay:false},'gt_el');}</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
+
