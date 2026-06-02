@@ -324,7 +324,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 .dacc-desc p{margin-bottom:.85rem}
 .dacc-desc p:last-child{margin-bottom:0}
 @media(max-width:900px){.boat-detail-layout{grid-template-columns:1fr}.boat-detail-bottom{grid-template-columns:1fr}.boat-detail-price-box{position:static}.dacc-cols{grid-template-columns:1fr}}
-@media(max-width:700px){.boat-detail-wrap{padding:1.5rem 1rem 3rem}}
+@media(max-width:700px){.boat-detail-wrap{padding:5rem 1rem 3rem}}
 .btn-feat-wa{display:inline-flex;align-items:center;gap:10px;background:#25D366;color:#fff;padding:.75rem 1.6rem;border-radius:50px;font-size:.88rem;font-weight:600;text-decoration:none;transition:all .3s var(--ease);box-shadow:0 6px 24px rgba(37,211,102,.35)}
 .btn-feat-wa:hover{background:#1fb358;transform:translateY(-3px);box-shadow:0 10px 36px rgba(37,211,102,.5)}
 .btn-feat-wa svg{width:20px;height:20px}
@@ -1621,7 +1621,7 @@ function drawChCard(id,type){
       document.getElementById('mainNav')?.classList.add('scrolled');
       if(boatDetailSection){
         boatDetailSection.style.display = 'block';
-        boatDetailSection.scrollIntoView({behavior:'smooth'});
+        window.scrollTo({top:0,behavior:'instant'});
       }
       if(window.history && window.history.pushState) window.history.pushState({detail:true}, '', '#detalle');
     }catch(e){console.error('Error mostrando ficha', e)}
