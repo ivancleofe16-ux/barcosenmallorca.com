@@ -208,8 +208,10 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
 .card{background:#fff;border-radius:var(--r2);border:1px solid var(--border);overflow:hidden;transition:transform .4s var(--ease2),box-shadow .4s var(--ease2),border-color .3s var(--ease);cursor:pointer;position:relative}
 .card:hover{transform:translateY(-8px);box-shadow:0 24px 56px rgba(10,37,64,.18);border-color:var(--azure)}
 .card-media{position:relative;height:185px;overflow:hidden;background:var(--foam)}
+.card-media img{display:block;width:100%;height:185px;object-fit:cover}
 .card-media canvas{display:block;width:100%;height:185px;transition:transform .7s var(--ease2)}
 .card:hover .card-media canvas{transform:scale(1.04)}
+.card:hover .card-media img{transform:scale(1.04);transition:transform .7s var(--ease2)}
 .card-badge{position:absolute;top:12px;left:12px;font-size:.62rem;font-weight:700;padding:.22rem .7rem;border-radius:20px;text-transform:uppercase;letter-spacing:.06em;backdrop-filter:blur(6px)}
 .badge-used{background:rgba(10,37,64,.75);color:#fff}
 .badge-new{background:rgba(26,158,90,.85);color:#fff}
@@ -742,7 +744,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
         </div>
       </div>
 
-      <div class="boats-grid reveal" id="boatsGrid">
+      <div class="boats-grid" id="boatsGrid">
         <div class="card starfisher-card" data-specs='{"title":"Starfisher 32 Cruiser 2004","price":"86.311 €","eslora":"9,8 m","year":"2004","motor":"Yanmar diesel","potencia":"274 cv","horas":"800 h","clase":"Cruceros","modelo":"32 Cruiser","capacidad":"6 personas","cabins":"2","berths":"6","location":"Palma, España","description":"Starfisher 32 Cruiser 2004 en Palma. Motor diesel con 2 x Yanmar (800 h), 6 literas y tanque amplio para travesías costeras.","descriptionLong":"<p>Starfisher 34 en Versión L – Confort y fiabilidad para el crucero</p><p>Se ofrece <strong>Starfisher 34 en venta</strong>, una de las embarcaciones más reconocidas del astillero Starfisher por su <strong>robustez, seguridad en navegación y excelente aprovechamiento del espacio</strong>. Un modelo muy valorado por su fiabilidad y comportamiento en el mar.</p><p>Esta unidad corresponde a la <strong>versión L del Starfisher 34</strong>, la variante más equipada y orientada al <strong>crucero confortable</strong>, similar a lo que muchos conocen como versión <em>Cruiser</em>, se trata del modelo con mayor nivel de acabados y una distribución interior pensada para estancias prolongadas a bordo, algo que puede apreciarse claramente en las fotografías.</p><p>El <strong>Starfisher 34</strong> destaca por su casco estable y marinero, ofreciendo una navegación segura y cómoda incluso con mar formada. Es una embarcación ideal tanto para salidas de día como para <strong>cruceros de varios días</strong>, gracias a su buen equilibrio entre prestaciones, espacio interior y facilidad de manejo.</p><p>Una opción muy interesante para quien busca un barco sólido, bien diseñado y con una excelente relación calidad-precio dentro de su eslora.</p>","images":["images/starfisher32-1.jpg.png","images/starfisher32-2.jpg.png"],"additional":"Beam 12,07 ft • Draft 2,95 ft • Fuel 3.028 gal • Condición usada","features":{"Equipo eléctrico":["Entrada de corriente externa"],"Electrónica":["Sonda","Radar","Corredera / Velocímetro","TV","Centro de navegación","Plotter / Graficador","Brújula","GPS","Radio VHF"],"Equipamiento interior":["Propulsor de proa","Microondas","WC marino","Nevera"],"Equipamiento exterior":["Bañera en teca","Ducha en bañera","Pescantes","Embarcación auxiliar","Cojines en bañera","Escalera de baño"]},"propulsion":{"Motor 1":{"Marca":"VOLVO","Modelo":"DIESEL KAMD 300","Año":"2004","Potencia":"274 cv","Horas":"735 h","Tipo":"Interior","Combustible":"Diésel"},"Motor 2":{"Marca":"VOLVO","Modelo":"DIESEL KAMD 300","Año":"2004","Potencia":"274 cv","Horas":"735 h","Tipo":"Interior","Combustible":"Diésel"}},"medidas":{"Dimensiones":{"Eslora total":"10,29 m","Manga":"3,68 m"},"Tanques":{"Agua dulce":"1 × 100 l","Carburante":"2 × 300 l"},"Miscelánea":{"Material del casco":"Fibra de vidrio / poliéster"},"Alojamiento":{"Cabinas":"2","WC":"1"}}}' data-price="86311" data-year="2004" data-length="9.8" data-type="barco-a-motor" data-status="segunda-mano" data-engine="diesel" data-brand="starfisher" data-location="palma">
           <div class="card-media">
             <img src="images/starfisher32-1.jpg.png" alt="Starfisher 32 Cruiser 2004 en Palma" style="width:100%;height:100%;object-fit:cover">
@@ -806,7 +808,7 @@ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/sv
       <!-- Galería full width -->
       <div>
         <div class="boat-gallery-wrap">
-          <img id="boatDetailImg" class="boat-gallery-main" src="https://dailyboats.com/bimg/6/8/5/5/3/boat/1.jpg" alt="">
+          <img id="boatDetailImg" class="boat-gallery-main" src="images/starfisher32-1.jpg.png" alt="">
           <button class="boat-gallery-arrow boat-gallery-prev" onclick="galleryNav(-1)">&#8249;</button>
           <button class="boat-gallery-arrow boat-gallery-next" onclick="galleryNav(1)">&#8250;</button>
         </div>
@@ -1615,9 +1617,9 @@ function drawChCard(id,type){
       boatLocation.textContent = s.location || '-';
       boatDesc.textContent = s.description || '';
       const imgs = s.images || [];
-      boatImgMain.src = imgs[0] || 'images/starfisher32-1.jpg';
-      if(boatThumb1) boatThumb1.src = imgs[0] || 'images/starfisher32-1.jpg';
-      if(boatThumb2) boatThumb2.src = imgs[1] || imgs[0] || 'images/starfisher32-2.jpg';
+      boatImgMain.src = imgs[0] || 'images/starfisher32-1.jpg.png';
+      if(boatThumb1) boatThumb1.src = imgs[0] || 'images/starfisher32-1.jpg.png';
+      if(boatThumb2) boatThumb2.src = imgs[1] || imgs[0] || 'images/starfisher32-2.jpg.png';
       if(boatContactBtn) boatContactBtn.href = 'https://wa.me/34623972024?text=' + encodeURIComponent('Hola, me interesa la ' + (s.title || 'embarcación'));
       boatModal.classList.add('open');
       boatModal.setAttribute('aria-hidden','false');
